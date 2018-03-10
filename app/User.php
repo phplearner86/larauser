@@ -3,12 +3,13 @@
 namespace App;
 
 use App\Observers\UserObserver;
+use App\Traits\User\HasSlug;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasSlug;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'verified',
     ];
 
     /**
@@ -34,51 +35,9 @@ class User extends Authenticatable
         static::observe(UserObserver::class);
     }
 
-     /**
-     * Generate the unique name slug.
-     *
-     * @param  string $name
-     * @return string
-     */
-    public static function uniqueNameSlug($name)
+    public function getRouteKeyName()
     {
-        $slug = str_slug($name);
-
-        if (static::nameSlugExists($slug))
-        {
-
-            $pieces = explode('-', static::nameSlugLatest($slug));
-
-            $number = intval(end($pieces));
-
-            $slug .= '-' .($number + 1);
-        }
-
-        return $slug;
-    }
-
-    /**
-     * Determine if the name slug exists.
-     *
-     * @param  string $slug
-     * @return boolean
-     */
-    protected static function nameSlugExists($slug)
-    {
-        return (bool) static::whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")->count();
-    }
-
-    /**
-     * Fetch the latest user.
-     * @param  string $slug
-     * @return App\Slug
-     */
-    protected static function nameSlugLatest($slug)
-    {
-        return static::whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")
-                ->latest('slug', 'desc')
-                ->pluck('slug')
-                ->first();
+        return 'slug';
     }
    
 }
