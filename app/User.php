@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\ActivationToken;
 use App\Observers\UserObserver;
 use App\Traits\User\HasSlug;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,6 +39,11 @@ class User extends Authenticatable
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function activationToken()
+    {
+        return $this->hasOne(ActivationToken::class);
     }
    
 }
