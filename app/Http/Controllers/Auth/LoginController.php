@@ -42,4 +42,18 @@ class LoginController extends Controller
 
         return $credentials;
     }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $response = message('Welcome '. $user->name );
+
+        return redirect()->intended($this->redirectPath())->with($response);
+    }
 }

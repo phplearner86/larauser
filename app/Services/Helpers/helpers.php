@@ -1,4 +1,9 @@
 <?php  
-function test(){
-    return 'test';
+
+function message($message, $type='success')
+{
+    $response['message'] = $message;
+    $response['type'] = $type;
+
+    return $response;
 }

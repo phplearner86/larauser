@@ -66,6 +66,8 @@ class RegisterController extends Controller
     {
         $this->guard()->logout();
 
-        return back();
+        $response = message("Thank you for signing up! Please check your email to activate your account.");
+
+        return back()->with($response);
     }
 }
