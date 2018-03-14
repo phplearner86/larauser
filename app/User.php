@@ -45,5 +45,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(ActivationToken::class);
     }
+
+    public function verifyEmail()
+    {
+        $this->verified = true;
+        $this->save();
+
+        $this->activationToken->delete();
+    }
    
 }

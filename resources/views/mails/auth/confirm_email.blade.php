@@ -4,7 +4,7 @@
 Please press the button below to activate your account.
 Your activation link expires on {{ $token->expires_at->toFormattedDateString() }}
 
-@component('mail::button', ['url' => $token->token])
+@component('mail::button', ['url' => route('token.show', $token)])
 Button Text
 @endcomponent
 

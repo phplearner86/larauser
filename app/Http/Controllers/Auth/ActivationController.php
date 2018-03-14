@@ -47,7 +47,21 @@ class ActivationController extends Controller
      */
     public function show(ActivationToken $activationToken)
     {
-        //
+        // $user = $activationToken->user;
+        // $user->verified = true;
+        // $user->save();
+
+        // $activationToken->delete();
+
+        $activationToken->user->verifyEmail();
+
+        // $response = message('Your Account is now active. Please signin to access site content');
+
+        // return redirect()->route('login')->with($response);
+
+        return $this->verified();
+
+
     }
 
     /**
@@ -82,5 +96,12 @@ class ActivationController extends Controller
     public function destroy(ActivationToken $activationToken)
     {
         //
+    }
+
+    protected function verified()
+    {
+        $response = message('Your Account is now active. Please signin to access site content');
+
+        return redirect()->route('login')->with($response);
     }
 }
