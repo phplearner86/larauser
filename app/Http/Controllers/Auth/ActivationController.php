@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\ActivationToken;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ActivationTokenController extends Controller
+class ActivationController extends Controller
 {
     /**
      * Display a listing of the resource.
