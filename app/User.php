@@ -5,12 +5,13 @@ namespace App;
 use App\ActivationToken;
 use App\Observers\UserObserver;
 use App\Traits\User\HasSlug;
+use App\Traits\User\VerifiesEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasSlug;
+    use Notifiable, HasSlug, VerifiesEmail;
 
     /**
      * The attributes that are mass assignable.
@@ -44,19 +45,6 @@ class User extends Authenticatable
     public function activationToken()
     {
         return $this->hasOne(ActivationToken::class);
-    }
-
-    public function verifyEmail()
-    {
-        $this->verified = true;
-        $this->save();
-
-        $this->activationToken->delete();
-    }
-
-    public function isVerified()
-    {
-        return $this->verified;
     }
 
     public static function findBy($value, $field='email')
