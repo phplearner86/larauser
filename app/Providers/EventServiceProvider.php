@@ -17,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             'App\Listeners\Auth\ActivateAccount@sendActivationToken',
         ],
+          'App\Events\Auth\EmailVerified' => [
+            'App\Listeners\Auth\ActivateAccount@sendThankYouNote',
+        ],
     ];
 
     /**

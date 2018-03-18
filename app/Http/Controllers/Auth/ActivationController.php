@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\ActivationToken;
-use Illuminate\Http\Request;
+use App\Events\Auth\EmailVerified;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ActivationController extends Controller
 {
@@ -47,20 +48,12 @@ class ActivationController extends Controller
      */
     public function show(ActivationToken $activationToken)
     {
-        // $user = $activationToken->user;
-        // $user->verified = true;
-        // $user->save();
-
-        // $activationToken->delete();
 
         $activationToken->user->verifyEmail();
 
-        // $response = message('Your Account is now active. Please signin to access site content');
-
-        // return redirect()->route('login')->with($response);
+        event(new EmailVerified($activationToken->user));
 
         return $this->verified();
-
 
     }
 
