@@ -32,4 +32,9 @@ class ActivationToken extends Model
         
         $token->save();
     }
+
+    public function hasExpired()
+    {
+        return Carbon::today()->gt($this->expires_at);
+    }
 }

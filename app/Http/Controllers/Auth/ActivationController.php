@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class ActivationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+        
+        $this->middleware('token.valid')->only('show');
+    }
+
     /**
      * Display a listing of the resource.
      *
