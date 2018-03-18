@@ -53,5 +53,10 @@ class User extends Authenticatable
 
         $this->activationToken->delete();
     }
+
+    public function isVerified()
+    {
+        return $this->verified;
+    }
    
 }

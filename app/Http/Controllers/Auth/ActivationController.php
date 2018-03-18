@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\ActivationToken;
 use App\Events\Auth\EmailVerified;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ActivationTokenRequest;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,7 @@ class ActivationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ActivationTokenRequest $request)
     {
         $user = User::whereEmail($request->email)->firstOrFail();
 
