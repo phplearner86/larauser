@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\ActivationToken;
 use App\Events\Auth\EmailVerified;
+use App\Events\Auth\TokenRequested;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActivationTokenRequest;
 use App\User;
@@ -17,16 +18,6 @@ class ActivationController extends Controller
         $this->middleware('guest');
 
         $this->middleware('token.valid')->only('show');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
     }
 
     /**
@@ -47,11 +38,13 @@ class ActivationController extends Controller
      */
     public function store(ActivationTokenRequest $request)
     {
-        $user = User::whereEmail($request->email)->firstOrFail();
+        $user = User::findBy($request->email);
 
         ActivationToken::createNewFor($user);
 
-        return back();
+        event(new TokenRequested($user));
+
+        return $this->resent();
     }
 
     /**
@@ -71,44 +64,17 @@ class ActivationController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ActivationToken  $activationToken
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ActivationToken $activationToken)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ActivationToken  $activationToken
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ActivationToken $activationToken)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ActivationToken  $activationToken
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ActivationToken $activationToken)
-    {
-        //
-    }
-
     protected function verified()
     {
         $response = message('Your Account is now active. Please signin to access site content');
 
         return redirect()->route('login')->with($response);
+    }
+
+    protected function resent()
+    {
+        $response = message('Please check in your inbox for the activation link');
+
+        return back()->with($response);
     }
 }

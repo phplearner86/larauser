@@ -58,5 +58,10 @@ class User extends Authenticatable
     {
         return $this->verified;
     }
+
+    public static function findBy($value, $field='email')
+    {
+        return static::where($field, $value)->firstOrFail();
+    }
    
 }
