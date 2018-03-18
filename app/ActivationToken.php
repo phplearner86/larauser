@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\ActivationTokenObserver;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,12 @@ class ActivationToken extends Model
     protected $dates = ['expires_at'];
 
     public $timestamps = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::observe(ActivationTokenObserver::class);
+    }
 
     public  function getRouteKeyName()
     {

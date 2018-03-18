@@ -56,7 +56,11 @@
                                 </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
+                                    {{ __('Forgot Password?') }}
+                                </a>
+
+                                <a class="btn btn-link" href="{{ route('token.create') }}">
+                                    {{ __('Lost Activation Link?') }}
                                 </a>
                             </div>
                         </div>

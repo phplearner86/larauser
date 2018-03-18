@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\ActivationToken;
 use App\Events\Auth\EmailVerified;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class ActivationController extends Controller
@@ -13,7 +14,7 @@ class ActivationController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-        
+
         $this->middleware('token.valid')->only('show');
     }
 
@@ -34,7 +35,7 @@ class ActivationController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.tokens.create');
     }
 
     /**
@@ -45,7 +46,11 @@ class ActivationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::whereEmail($request->email)->firstOrFail();
+
+        ActivationToken::createNewFor($user);
+
+        return back();
     }
 
     /**
