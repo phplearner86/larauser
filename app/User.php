@@ -51,5 +51,15 @@ class User extends Authenticatable
     {
         return static::where($field, $value)->firstOrFail();
     }
+
+    public function accountStatus()
+    {
+        return $this->verified ? 'active' : 'inactive';
+    }
+
+    public function getFormattedDateAttribute()
+    {
+        return $this->created_at->toFormattedDateString();
+    }
    
 }
