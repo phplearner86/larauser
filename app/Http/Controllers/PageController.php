@@ -15,4 +15,9 @@ class PageController extends Controller
     {
         return view('home');
     }
+
+    public function dashboard()
+    {
+        return view('admin.dashboard');
+    }
 }
