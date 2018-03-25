@@ -18,3 +18,12 @@ Route::resource('/accounts/token', 'Auth\ActivationController', [
     'only' => ['create', 'store', 'show'],
 ]);
 
+Route::prefix('admin')->namespace('User')->name('admin.')
+    ->group(function (){
+
+    Route::resource('accounts', 'AccountController', [
+        'parameters' => ['accounts' => 'user'],
+        'only' => ['index', 'store', 'update', 'destroy']
+    ]);
+
+});
