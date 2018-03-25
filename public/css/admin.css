@@ -1,5 +1,6 @@
-body {
+body#adminBody {
   font-size: .875rem;
+  background: #fff;
 }
 
 .feather {

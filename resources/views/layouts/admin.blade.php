@@ -3,11 +3,11 @@
 <head>
     @include('partials.top._header')
 
-    <link href="{{ asset('css.admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
     @yield('links')
 </head>
-<body>
+<body id="adminBody">
     <div id="app">
         
         @include('partials.admin._nav')
