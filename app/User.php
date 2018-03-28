@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasOne(ActivationToken::class);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public static function findBy($value, $field='email')
     {
         return static::where($field, $value)->firstOrFail();

@@ -14,9 +14,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <span data-feather="shopping-cart"></span>
-          Products
+        <a class="nav-link" href="{{ route('admin.roles.index') }}">
+          <span data-feather="briefcase"></span>
+          Roles
         </a>
       </li>
       <li class="nav-item">
