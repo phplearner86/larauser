@@ -38,7 +38,9 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Role::createNew($request);
+
+        return message('New role has been created');
     }
 
     /**

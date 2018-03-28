@@ -13,19 +13,89 @@
         </div>
     </div>
     
+    {{-- Roles --}}
     @if ($roles->count())
-        @foreach ($roles->chunk(3) as $chunk)
-        <div id='roleCard' class="row mb-2">
-            @each ('users.roles.partials._card', $chunk, 'role') 
+        <div id="displayRoles">
+            @foreach ($roles->chunk(3) as $chunk)
+            <div id='roleCard' class="row mb-2">
+                @each ('users.roles.partials._card', $chunk, 'role') 
+            </div>
+            @endforeach
         </div>
-        @endforeach
     @else
         No roles were found!
     @endif
 
+    {{-- Modal --}}
+    <div class="modal" id="roleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                {{-- FORM --}}
+                <form id="roleForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <input class="form-control" type="text" id="name" name="name" placeholder="Role name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-role"></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 @endsection
 
+
 @section('scripts')
-    {{-- expr --}}
+
+    <script>
+        
+        var roleModal = $('#roleModal');
+        var adminRolesUrl = "{{ route('admin.roles.index') }}"
+ 
+        // Create Role
+        $(document).on('click', '#createRole', function(){
+
+            roleModal.modal('show')
+
+            $('.modal-title').text('Create Role')
+            $('.btn-role').attr('id', 'storeRole').text('Save')
+        })
+
+        // Store Role
+        $(document).on('click', '#storeRole', function(){
+
+            data = {
+                name: $('#name').val(),
+            }
+
+
+            $.ajax({
+                url: adminRolesUrl,
+                type: 'POST',
+                data: data,
+                success: function(response){
+                    $('#displayRoles').load(location.href + " #displayRoles")// !!! mind blank space
+                    userNotification(response.message)
+                    roleModal.modal('hide')
+                }
+            })
+        })
+
+
+
+    </script>
+
 @endsection
