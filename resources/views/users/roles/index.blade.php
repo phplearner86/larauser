@@ -42,7 +42,9 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="role">Role</label>
-                            <input class="form-control" type="text" id="name" name="name" placeholder="Role name">
+                            <input class="form-control name" type="text" id="name" name="name" placeholder="Role name">
+
+                            <span class="invalid-feedback name"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -63,7 +65,20 @@
     <script>
         
         var roleModal = $('#roleModal');
+        var roleForm = $('#roleForm');
         var adminRolesUrl = "{{ route('admin.roles.index') }}"
+        var roleFields = ['name']
+
+        roleModal.on('hidden.bs.modal', function(){
+
+            clearForm(roleForm)
+
+            clearServerErrors(roleFields)
+        })
+
+        roleModal.on('shown.bs.modal', function(){
+            setAutofocus(roleModal, 'name')
+        })
  
         // Create Role
         $(document).on('click', '#createRole', function(){
@@ -87,9 +102,22 @@
                 type: 'POST',
                 data: data,
                 success: function(response){
+                    
                     $('#displayRoles').load(location.href + " #displayRoles")// !!! mind blank space
-                    userNotification(response.message)
-                    roleModal.modal('hide')
+                    successResponse(response.message, roleModal)
+                },
+                error: function(response){
+                    var errors = response.responseJSON.errors
+
+                    for(let error in errors){
+
+                        var field = $('.' + error)
+                        var feedback = $('span.' + error)
+
+
+                        field.addClass('is-invalid')
+                        feedback.text(errors[error][0])
+                    }
                 }
             })
         })

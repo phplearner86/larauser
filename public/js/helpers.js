@@ -18,3 +18,36 @@ function setTableCounterColumn(datatable)
         } );
     } ).draw();
 }
+
+function clearForm(form)
+{
+    form.find('input[type=text], input[type=password], textarea').val("").end()
+}
+
+function setAutofocus(modal, inputId)
+{
+    modal.find('#' + inputId).focus()
+}
+
+function clearError(name)
+{
+    var field = $('.' + name)
+    var feedback = $('span.' + name)
+
+
+    field.removeClass('is-invalid')
+    feedback.text('')
+}
+
+function clearServerErrors(formFields)
+{
+    $.each(formFields, function(index, name){
+        clearError(name)
+    });
+}
+
+function successResponse(message, modal)
+{
+    userNotification(message)
+    modal.modal('hide')
+}

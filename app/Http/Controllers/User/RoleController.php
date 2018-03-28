@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Role;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoleRequest;
+use App\Role;
 
 class RoleController extends Controller
 {
@@ -36,7 +36,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
         Role::createNew($request);
 
@@ -72,7 +72,7 @@ class RoleController extends Controller
      * @param  \App\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
         //
     }
