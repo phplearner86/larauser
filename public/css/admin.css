@@ -92,3 +92,8 @@ body#adminBody {
 
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+.btn-edit {background: none; color: inherit;}
+.btn-delete {background: none; border: none; color: #dc3545}
+.btn-delete:hover {background: none; border: none; color: #c32232; font-weight: bold}
