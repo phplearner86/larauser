@@ -97,3 +97,23 @@ body#adminBody {
 .btn-edit {background: none; color: inherit;}
 .btn-delete {background: none; border: none; color: #dc3545}
 .btn-delete:hover {background: none; border: none; color: #c32232; font-weight: bold}
+
+/*
+ * Select2
+ */
+input.select2-search__field {width: 100% !important;}
+.select2-selection--multiple { border: 1px solid #ccd0d2 !important; }
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: #80bdff !important;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)
+}
+.form-group.has-success span.select2-selection--multiple {
+  border-color: #5cb85c !important;
+  box-shadow: none !important
+}
+.form-group.has-warning span.select2-selection--multiple {
+  border-color: #bf5329 !important;
+  box-shadow: none !important
+}

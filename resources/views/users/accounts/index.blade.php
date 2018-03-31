@@ -4,6 +4,7 @@
 @section('links')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" />
     <style>
         .dataTables_wrapper{
             font-size: 13px;
@@ -18,10 +19,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Accounts</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group mr-2">
-
-            </div>
-
+            <button class="btn btn-warning" id="createAccount">New Account</button>
         </div>
     </div>
 
@@ -41,70 +39,115 @@
             </tbody>
         </table>
     </div>
+
+    {{-- Create Modal --}}
+    <div class="modal" id="createAccountModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fa fa-lock"></i>
+                            <span>Create Account</span>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                {{-- FORM --}}
+                <form id="createAccountForm">
+                    <div class="modal-body">
+
+                        <!-- Role -->
+                        <div class="form-group select-box">
+                            <label for="role_id">Role</label>
+                            <select class="role_id form-control req_place" name="role_id[]" id="role_id" multiple="multiple">
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <span class="invalid-feedback role_id"></span>
+                        </div>
+
+                        {{-- Name --}}
+                        <div class="form-group">
+                            <label for="name">Name</label>
+
+                            <input id="name" type="text" class="form-control name" name="name" placeholder="Enter name">
+                            <span class="invalid-feedback name"></span>
+                        </div>
+
+
+                        {{-- Email --}}
+                        <div class="form-group">
+                            <label for="email">Email</label>
+
+                            <input id="email" type="text" class="form-control email" name="email" placeholder="example@domain.com">
+                            <span class="invalid-feedback email"></span>
+                        </div>
+
+                        {{-- Password --}}
+                        <div class="form-group" >
+                            <label for="password">Password</label>
+
+                            <input id="password" type="password" class="form-control password" name="password" placeholder="Give password to the user">
+                            <span class="invalid-feedback password"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="create-password" id="autoPassword" value="auto" checked="">
+                                <label class="form-check-label" for="autoPassword">
+                                    Auto generate password
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-account" id="storeAccount">Create account</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>    
 @endsection
 
 @section('scripts')
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     <script>
         var table = $('#accountsTable')
         var apiAccountsUrl = "{{ route('api.accounts.index') }}"
+        var createAccountForm = $('#createAccountForm')
 
-       var datatable = table.DataTable({
-            "ajax": {
-                "url": apiAccountsUrl,
-                "type": "GET"
-            },
-            deferRender: true,
-            "columns": [
-                {
-                    render:function(data, type, row, meta){
-                        return ""
-                    },
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "name",
-                    render:function(data, type, row, meta){
-                        return '<a href="#" data-user=' + row.user + ' id="editProfile">' + data + '</a>'
-                    },
-                },
-                {
-                    data: "email",
-                },
-                {
-                    data: "status",
-                },
-                {
-                    data: "joined",
-                },
-                {
-                    render:function(data, type, row, meta){
-                        return '<button class="btn btn-xs btn-link btn-edit" id="editAccount" value="' + row.user + '">Edit</button><button class="btn btn-xs btn-link btn-delete" id="deleteAccount" value="' + row.user + '">Delete</button>'
-                    },
-                    searchable: false,
-                    orderable: false,
-                },
-                {
-                    data: "user",
-                    visible: false
-                }
-            ],
-            "order": [2, "desc"],
-            responsive: true,
-            columnDefs: [
-                {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: 2},
-                {responsivePriority: 3, targets: 3},
-            ]
+        var password = $('#password')
+        password.hide()
 
-        });
+        createAccountForm
+            .find('select.role_id')
+            .select2({
+                placeholder: "Select roles",
+                width: "100%"
+            })
+
+       // Datatable
+        @include('users.accounts.js._datatable')
 
 
-        setTableCounterColumn(datatable)
+        // Create Account
+        $(document).on('click', '#createAccount', function(){
+            $('#createAccountModal').modal('show')
+        })
 
 
     </script>

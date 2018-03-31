@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class AccountController extends Controller
 {
@@ -15,7 +16,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('users.accounts.index');
+        $roles = Role::all();
+        return view('users.accounts.index', compact('roles'));
     }
 
     /**
