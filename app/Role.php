@@ -20,4 +20,11 @@ class Role extends Model
 
         $role->save();
     }
+
+    public function saveChanges($data)
+    {
+        $this->name = $data['name'];
+
+        $this->save();
+    }
 }

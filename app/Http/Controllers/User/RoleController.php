@@ -76,9 +76,7 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, Role $role)
     {
-        $role->name = $request->name;
-
-        $role->save();
+        $role->saveChanges($request);
 
         return message('The role name has been updated');
     }
@@ -91,6 +89,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return message('The role has been deleted');
     }
 }

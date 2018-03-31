@@ -164,6 +164,25 @@
             })
         })
 
+        //Delete Role
+        
+        $(document).on('click', '#deleteRole', function(){
+
+            var role = $(this).val()
+            var deleteRoleUrl = adminRolesUrl + '/' + role 
+
+            $.ajax({
+                url: deleteRoleUrl,
+                type: 'DELETE',
+                success: function(response)
+                {
+                    $('#displayRoles').load(location.href + " #displayRoles")// !!! mind blank space
+                    successResponse(response.message, roleModal)
+                }
+            })
+        })
+        
+
 
 
     </script>
