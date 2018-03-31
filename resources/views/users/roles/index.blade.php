@@ -114,6 +114,30 @@
             })
         })
 
+        //Edit Role
+        
+        $(document).on('click', '#editRole', function(){
+            roleModal.modal('show')
+
+            var role = $(this).val()
+            var editRoleUrl = adminRolesUrl + '/' + role
+
+            $('.modal-title').text('Edit role')
+            $('.btn-role').text('Save changes')
+
+            $.ajax({
+                url: editRoleUrl,
+                type: 'GET',
+                success: function(response)
+                {
+                    var role = response.role
+
+                    $('#name').val(role.name)
+                }
+            })
+
+        })
+
 
 
     </script>

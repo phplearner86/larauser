@@ -37,7 +37,7 @@ Route::prefix('admin')->namespace('User')->name('admin.')
      * Role
      */
     Route::resource('roles', 'RoleController', [
-        'only' => ['index', 'store', 'update', 'destroy']
+        'only' => ['index', 'show', 'store', 'update', 'destroy']
     ]);
 
 });
