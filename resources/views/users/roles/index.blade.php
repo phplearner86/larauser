@@ -115,7 +115,6 @@
         })
 
         //Edit Role
-        
         $(document).on('click', '#editRole', function(){
             roleModal.modal('show')
 
@@ -123,7 +122,7 @@
             var editRoleUrl = adminRolesUrl + '/' + role
 
             $('.modal-title').text('Edit role')
-            $('.btn-role').text('Save changes')
+            $('.btn-role').attr('id', 'updateRole').text('Save changes').val(role)// !!! Assign role value to update button
 
             $.ajax({
                 url: editRoleUrl,
@@ -135,7 +134,34 @@
                     $('#name').val(role.name)
                 }
             })
+        })
 
+
+        //Update Role
+        $(document).on('click', '#updateRole', function(){
+
+            var role = $(this).val()
+            var updateRoleUrl = adminRolesUrl + '/' + role
+
+            data = {
+                name: $('#name').val(),
+            }
+
+            $.ajax({
+                url: updateRoleUrl,
+                type: 'PUT',
+                data: data,
+                success: function(response)
+                {
+                    $('#displayRoles').load(location.href + " #displayRoles")// !!! mind blank space
+                    successResponse(response.message, roleModal)
+                },
+                error: function(response){
+
+                     errorResponse(response.responseJSON.errors)
+
+                }
+            })
         })
 
 
