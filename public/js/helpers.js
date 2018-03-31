@@ -21,7 +21,13 @@ function setTableCounterColumn(datatable)
 
 function clearForm(form)
 {
-    form.find('input[type=text], input[type=password], textarea').val("").end()
+    form
+        .find('input[type=text], input[type=password], textarea').val("").end()
+        .find('select').val(null).trigger('change')
+        .find('input[type=checkbox], input[type=radio]').prop('checked', "").end()
+        .find('#autoPassword').prop('checked', true)
+
+        $('#password').hide()
 }
 
 function setAutofocus(modal, inputId)
@@ -77,4 +83,20 @@ function errorResponse(errors)
     displayErrors(errors)
 
     clearErrorOnNewInput()
+}
+
+/**
+ * Toggle hidden field visibility by changing checkbox field value
+ *
+ * @param  {string} checked_field
+ * @param  {string} hidden_field
+ * @return {void}
+ */
+function toggleHiddenFieldWithCheckbox(checked_field, hidden_field)
+{
+    checked_field.change(function() {
+
+        this.checked ? hidden_field.hide().val('').end() : hidden_field.show()
+
+    });
 }

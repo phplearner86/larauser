@@ -129,9 +129,17 @@
         var table = $('#accountsTable')
         var apiAccountsUrl = "{{ route('api.accounts.index') }}"
         var createAccountForm = $('#createAccountForm')
+        var createAccountModal = $('#createAccountModal')
 
+        var auto_password = $('#autoPassword')
         var password = $('#password')
         password.hide()
+
+        createAccountModal.on('hidden.bs.modal', function(){
+
+            clearForm(createAccountForm)
+
+        })
 
         createAccountForm
             .find('select.role_id')
@@ -147,6 +155,8 @@
         // Create Account
         $(document).on('click', '#createAccount', function(){
             $('#createAccountModal').modal('show')
+
+            toggleHiddenFieldWithCheckbox(auto_password, password)
         })
 
 
