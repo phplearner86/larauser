@@ -107,17 +107,9 @@
                     successResponse(response.message, roleModal)
                 },
                 error: function(response){
-                    var errors = response.responseJSON.errors
 
-                    for(let error in errors){
+                     errorResponse(response.responseJSON.errors)
 
-                        var field = $('.' + error)
-                        var feedback = $('span.' + error)
-
-
-                        field.addClass('is-invalid')
-                        feedback.text(errors[error][0])
-                    }
                 }
             })
         })

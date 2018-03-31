@@ -51,3 +51,30 @@ function successResponse(message, modal)
     userNotification(message)
     modal.modal('hide')
 }
+
+function clearErrorOnNewInput()
+{
+    $('input,textarea').on('keydown', function(){
+        clearError($(this).attr('name'))
+    })
+}
+
+function displayErrors(errors)
+{
+    for(let error in errors){
+
+        var field = $('.' + error)
+        var feedback = $('span.' + error)
+
+
+        field.addClass('is-invalid')
+        feedback.text(errors[error][0])
+    }
+}
+
+function errorResponse(errors)
+{
+    displayErrors(errors)
+
+    clearErrorOnNewInput()
+}
