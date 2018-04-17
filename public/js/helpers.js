@@ -158,7 +158,7 @@ function swalDelete(url, name, datatable, field)
  * @param  {string} modal
  * @return {[void]}
  */
-function errorResponse(errors, modal)
+function errorResponse(modal, errors)
 {
     if(errors) {
         displayErrors(errors)

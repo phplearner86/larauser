@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\Auth\AccountCreatedByAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Role;
@@ -39,7 +40,9 @@ class AccountController extends Controller
      */
     public function store(AccountRequest $request)
     {
-        User::createAccount($request);
+        $user = User::createAccount($request);
+
+        event(new AccountCreatedByAdmin($user, $request->password));
 
         return message('User has been created.');
     }
