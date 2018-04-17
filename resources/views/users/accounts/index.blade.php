@@ -98,7 +98,7 @@
                             <span class="invalid-feedback password"></span>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id="check-password">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="create-password" id="autoPassword" value="auto" checked="">
                                 <label class="form-check-label" for="autoPassword">
@@ -131,16 +131,26 @@
         var adminAccountsUrl = "{{ route('admin.accounts.store') }}"
         var createAccountForm = $('#createAccountForm')
         var createAccountModal = $('#createAccountModal')
+        var accountFields = ['role_id', 'name', 'email', 'password']
 
         var auto_password = $('#autoPassword')
         var password = $('#password')
         password.hide()
 
-        createAccountModal.on('hidden.bs.modal', function(){
+        //   createAccountModal.on('hidden.bs.modal', function(){
 
-            clearForm(createAccountForm)
+        //     clearForm(createAccountForm)
 
-        })
+        //     clearServerErrors(accountFields)
+        // })
+        
+        createAccountModal.setAutofocus('role_id')
+        createAccountModal.emptyModal(accountFields, createAccountForm, auto_password, password)
+
+
+        
+
+       
 
         createAccountForm
             .find('select.role_id')
@@ -178,10 +188,15 @@
                 url: adminAccountsUrl,
                 type: 'POST',
                 data: data,
-                success: function(response){
+                success: function(response)
+                {
 
                     datatable.ajax.reload()
-                    successResponse(response.message, createAccountModal)
+                    successResponse(createAccountModal, response.message)
+                },
+                error: function(response)
+                {
+                    errorResponse(response.responseJSON.errors)
                 }
             })
         })
