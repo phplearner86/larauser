@@ -76,8 +76,8 @@
                         {{-- Name --}}
                         <div class="form-group">
                             <label for="name">Name</label>
-
                             <input id="name" type="text" class="form-control name" name="name" placeholder="Enter name">
+
                             <span class="invalid-feedback name"></span>
                         </div>
 
@@ -85,16 +85,16 @@
                         {{-- Email --}}
                         <div class="form-group">
                             <label for="email">Email</label>
-
                             <input id="email" type="text" class="form-control email" name="email" placeholder="example@domain.com">
+
                             <span class="invalid-feedback email"></span>
                         </div>
 
                         {{-- Password --}}
                         <div class="form-group" >
                             <label for="password">Password</label>
-
                             <input id="password" type="password" class="form-control password" name="password" placeholder="Give password to the user">
+
                             <span class="invalid-feedback password"></span>
                         </div>
 
@@ -128,6 +128,7 @@
     <script>
         var table = $('#accountsTable')
         var apiAccountsUrl = "{{ route('api.accounts.index') }}"
+        var adminAccountsUrl = "{{ route('admin.accounts.store') }}"
         var createAccountForm = $('#createAccountForm')
         var createAccountModal = $('#createAccountModal')
 
@@ -159,6 +160,31 @@
             toggleHiddenFieldWithCheckbox(auto_password, password)
         })
 
+        //Store account
+        $(document).on('click', '#storeAccount', function()
+        {
+
+            var field = $('#autoPassword')
+            var password = generatePassword(field)
+
+            var data = {
+                role_id: $('#role_id').val(), 
+                name: $('#name').val(), 
+                email: $('#email').val(), 
+                password: password, 
+            }
+
+            $.ajax({
+                url: adminAccountsUrl,
+                type: 'POST',
+                data: data,
+                success: function(response){
+
+                    datatable.ajax.reload()
+                    successResponse(response.message, createAccountModal)
+                }
+            })
+        })
 
     </script>
 @endsection

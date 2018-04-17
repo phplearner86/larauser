@@ -66,5 +66,20 @@ class User extends Authenticatable
     {
         return $this->created_at->toFormattedDateString();
     }
+
+    public static function createAccount($data)
+    {
+        $user = new static;
+
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+
+        $user->save();
+
+        $user->roles()->attach($data['role_id']);
+
+        return $user;
+    }
    
 }

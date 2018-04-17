@@ -38,7 +38,9 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::createAccount($request);
+
+        return message('User has been created.');
     }
 
     /**

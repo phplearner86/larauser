@@ -63,11 +63,9 @@
 
         // Store Role
         $(document).on('click', '#storeRole', function(){
-
             data = {
                 name: $('#name').val(),
             }
-
 
             $.ajax({
                 url: adminRolesUrl,

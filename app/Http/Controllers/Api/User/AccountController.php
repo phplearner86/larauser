@@ -17,7 +17,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('created_at', 'desc')->get();
         return UsersCollection::collection($users);
     }
 

@@ -100,3 +100,40 @@ function toggleHiddenFieldWithCheckbox(checked_field, hidden_field)
 
     });
 }
+
+/**
+ * Determine how to create the password.
+ *
+ * @param  {string} field
+ * @return {string}
+ */
+function generatePassword(field)
+{
+    var auto_password = randomString(6);
+    var manual_password = $('input[type=password]').val();
+
+    return isChecked(field) ? auto_password : manual_password;
+}
+
+/**
+ * Generate random string
+ *
+ * @param  {{numeric}} length
+ * @return string
+ */
+function randomString(length)
+{
+    return Math.random().toString(36).substring(length);
+}
+
+/**
+ * Determine if the field is checked.
+ *
+ * @param  {string}  field
+ * @return {Boolean}
+ */
+function isChecked(field) {
+
+    return field[0].checked
+}
+

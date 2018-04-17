@@ -26,7 +26,7 @@ class RoleRequest extends FormRequest
         return [
             'name' => [
                 'required', 'max:50', 
-                'unique:roles,name,'.$this->role->id,
+                'unique:roles,name,'.optional($this->role)->id,
             ],
         ];
     }
