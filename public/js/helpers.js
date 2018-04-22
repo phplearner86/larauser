@@ -42,6 +42,7 @@ function toggleHiddenFieldWithRadio(checked_value, hidden_field)
 
         value == checked_value ? hidden_field.show() : hidden_field.hide().val('').end()
     });
+   
 }
 
 /**
@@ -242,15 +243,16 @@ function clearErrorOnNewInput()
     $("input[type=checkbox], input[type=radio]").click(function() {
 
         var id = $(this).parents(':eq(1)').attr('id');
-        var name = $(this).attr('name');
+        var name = $(this).parents(':eq(1)').attr('name');
 
-        var splitted = $(this).attr('name').split("-")
+        var splitted = name ? name.split("-") : ''
         var splitted_name = splitted[1]
 
-        clearError(splitted_name)
+        clearError(name)
         clearError(id)
     })
 }
+
 
 /**
  * Display server error.
@@ -389,10 +391,13 @@ function clearForm(form, checked_field, hidden_field)
     $(form)
         .find("input[type=text], input[type=password], input[type=file], textarea")
         .val('').end()
-        .find("select").val(null).trigger('change')
+        .find("select")
+        .val(null).trigger('change')
         .find("input[type=checkbox], input[type=radio]")
         .prop("checked", "").end()
-        .find(checked_field).prop('checked', true);
+
+    $(form)
+        .find(checked_field).prop('checked', true)
 
     hidden_field ? hidden_field.hide() : ''
 }

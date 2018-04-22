@@ -93,9 +93,106 @@ body#adminBody {
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
+admin-title-no-button {margin: 5px 0 !important}
+.admin-title button {background: #FCB75A; font-weight: bold; color: #fff; margin-top: 3px; margin-bottom: 2px;}
+.admin-title button:hover {background: #fa9b1e !important; border-color: #fa9005 font-weight: bold; color: #fff;}
+.admin-modal .modal-content { border-top: 6px solid #65e7be !important;  overflow: hidden }
+.admin-modal h5 i { color: #8c8c8c; margin-right: 6px }
+.admin-modal h5 { font-weight: bold; }
+.admin-modal .modal-footer { background: #f2f3f2; border-top: none; }
+.admin-modal-btn { background: #007562; border-color: #006655 }
+.admin-modal-btn:focus,
+.admin-modal-btn:hover,
+.admin-modal-btn:disabled { background: #004d40; border-color: #00332b }
+.admin-modal-btn-close { background: #fba637; border-color:#fa9b1e }
+.admin-modal-btn-close:focus,
+.admin-modal-btn-close:hover { background: #fa9005; border-color: #e18105 }
+.admin-modal-btn-delete {background: #aa3f3c; border-color: #973835}
+.admin-modal-btn-delete:focus,
+.admin-modal-btn-delete:hover {background: #84312e; border-color: #712a28}
+.admin-modal-input:focus {
+    border-color: #65e7be !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6) !important;
+    outline: 0 ;
+}
+.admin-modal-btn:focus {
+  background: #004d40 !important;
+  border-color: #65e7be !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6) !important;
+  outline: 0;
+}
+
+.admin-modal-btn-close:focus {
+  background: #fa9005 !important;
+  border-color: #e18105 !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(250, 144, 5, 0.6) !important;
+  outline: 0;
+}
+button.close:focus {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.form-group.has-success .admin-modal-input:focus {
+  border-color: #5cb85c !important;
+  box-shadow: none !important
+}
+.form-group.has-warning .admin-modal-input:focus,
+.form-group.fv-has-feedback .is-invalid.admin-modal-input:focus {
+  border-color: #bf5329 !important;
+  box-shadow: none !important
+}
+
+/* Table */
+.dataTable {padding-top: 12px;}
+.dataTable a {color: #C25451}
+.dataTables_wrapper {font-size: 13px;}
+.dataTables_length select{max-height: 28px !important}
+.dataTables_filter input {max-height: 28px !important}
+.dataTable td {padding-left: 18px !important;}
+.dataTable thead i { color: #a6a6a6 }
+.dataTable .btn-link-delete {padding: 0; border:none; height: 24px}
+.dataTable .btn-link-delete i {color: #973835;}
+.dataTable .btn-edit {padding: 0; border:none; height: 24px; background: none}
+.dataTable .btn-edit i {color: #d7908e;}
+.dataTable .btn-link-delete i:hover, .dataTable .btn-edit i:hover {color: #aa3f3c;}
+.dataTable th { color: #4a4a4a; text-transform: uppercase; font-size: 13px; font-weight: 600 !important}
+.admin-table td { border-top: 1px solid #e6e6e !important }
+.dataTable thead th { border-bottom: 0 !important;  border-top: 1px solid #e6e6e6 !important}
+.dataTable thead tr { background: #f2f2f2;}
+.dataTable.no-footer { border-bottom: 1px solid #e6e6e6  !important; }
+.dataTable i.fa-check-circle { color: #00A791; }
+.dataTable i.fa-times-circle { color: #FCB75A; }
+/*.dataTable tbody tr td.highlight,
+.dataTable tr.even:hover,
+.dataTable tr.even:hover td.sorting_1,
+.dataTable tr.odd:hover,
+.dataTable tr.odd:hover td.sorting_1 {
+    background: #f5f8fc !important;
+}*/
+td.sorting_1 { background: #F8F9FA }
+td.sorting_1:hover { background: #d2d9df !important }
+
+.dt-avatar { width: 20px; height:20px; }
+
+/*
+ * Datatable responsive
+ */
+.dataTable td.details-control {
+    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+.dataTable tr.shown td.details-control {
+    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+.dataTable ul.dtr-details li:last-child { display: flex; align-items: center }
+.dataTable tbody td.highlight, table.dataTable tbody tr:hover { background-color: #f0f1f4 !important; }
+
+/* Card buttons */
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
-.btn-edit {background: none; color: inherit;}
-.btn-delete {background: none; border: none; color: #dc3545}
+ button#editRole:focus, button#deleteRole:focus {background: none !important; color: #C25451; box-shadow: none !important;}
+.btn-delete {background: none; border: none; color: #C25451}
 .btn-delete:hover {background: none; border: none; color: #c32232; font-weight: bold}
 
 /*
@@ -104,10 +201,15 @@ body#adminBody {
 input.select2-search__field {width: 100% !important;}
 .select2-selection--multiple { border: 1px solid #ccd0d2 !important; }
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-  border-color: #80bdff !important;
+  /*border-color: #80bdff !important;
   outline: 0;
   -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)*/
+
+  border-color: #65e7be !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(126, 239, 104, 0.6) !important;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(126, 239, 104, 0.6) !important;
+  outline: 0;
 }
 .form-group.has-success span.select2-selection--multiple {
   border-color: #5cb85c !important;
@@ -117,3 +219,15 @@ input.select2-search__field {width: 100% !important;}
   border-color: #bf5329 !important;
   box-shadow: none !important
 }
+
+div#adminDetails { background: #f2f2f2; padding: 12px 16px 0px; border-right: 1px solid #E5E5E5; }
+div#adminDetails a { text-decoration: none; color: inherit }
+div#adminDetails a i { color: #a6a6a6; }
+
+div.card#adminSettings {padding: 4px}
+div.card#adminSettings button {padding: 3px 12px; background: #fff; text-decoration: none; color: inherit;}
+div.card#adminSettings button:hover {background: orange; color: #fff; border: 1px solid orange;}
+div.card button#destroyProfile { color: #C25451; border: none; background: none }
+div.card button#destroyProfile:hover { color: #c32232; font-weight: bold; border: none; background: none}
+
+div#myAccount p, div#myProfile p {margin-left: 26px;}

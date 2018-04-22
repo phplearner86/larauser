@@ -18,6 +18,16 @@ class AccountController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            $users = User::orderBy('created_at', 'desc')->get();
+
+            return ['data' => $users];
+        }
+
+    }
+
+    public function accountsList()
+    {
         $roles = Role::all();
         return view('users.accounts.index', compact('roles'));
     }

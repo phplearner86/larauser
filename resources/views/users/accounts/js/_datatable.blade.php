@@ -1,6 +1,6 @@
 var datatable = table.DataTable({
      "ajax": {
-         "url": apiAccountsUrl,
+         "url": adminAccountsUrl,
          "type": "GET"
      },
      deferRender: true,
@@ -15,27 +15,33 @@ var datatable = table.DataTable({
          {
              data: "name",
              render:function(data, type, row, meta){
-                 return '<a href="#" data-user=' + row.user + ' id="editProfile">' + data + '</a>'
+                 return '<a href="#" data-user=' + row.id + ' id="editProfile">' + data + '</a>'
              },
          },
          {
              data: "email",
          },
          {
-             data: "status",
+             data: "verified",
+             render:function(data, type, row, meta) {
+                return getAccountStatus(data)
+             }
          },
          {
-             data: "joined",
+             data: "created_at",
+             render:function(data, type, row, meta) {
+                return getFormattedDate(data)
+             }
          },
          {
              render:function(data, type, row, meta){
-                 return '<button class="btn btn-xs btn-link btn-edit" id="editAccount" value="' + row.user + '">Edit</button><button class="btn btn-xs btn-link btn-delete" id="deleteAccount" value="' + row.user + '">Delete</button>'
+                 return '<button class="btn btn-xs btn-link btn-edit" id="editAccount" value="' + row.id + '">Edit</button><button class="btn btn-xs btn-link btn-delete" id="deleteAccount" value="' + row.user + '">Delete</button>'
              },
              searchable: false,
              orderable: false,
          },
          {
-             data: "user",
+             data: "id",
              visible: false
          }
      ],
