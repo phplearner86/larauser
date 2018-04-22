@@ -39,6 +39,6 @@ class differentFromName implements Rule
      */
     public function message()
     {
-        return 'Rhe password and the name must be different.';
+        return 'The password and the name must be different.';
     }
 }

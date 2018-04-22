@@ -10,7 +10,15 @@
         @include('partials.top._nav')
 
         <main class="py-4 container">
-            @yield('content')
+            <div class="row">
+                <div class="col-md-4">
+                    @yield('side')
+                </div>
+
+                <div class="col-md-8">
+                    @yield('content')
+                </div>
+            </div>
         </main>
     </div>
 

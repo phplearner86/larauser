@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 
 Auth::routes();
 
@@ -41,3 +43,16 @@ Route::prefix('admin')->namespace('User')->name('admin.')
     ]);
 
 });
+
+/**
+ * User
+ */
+Route::prefix('settings')->namespace('User')->name('users.')->group(function(){
+   /**
+    * Account
+    */
+    Route::get('/myaccount', 'AccountController@edit')->name('accounts.edit');
+    Route::put('/myaccount', 'AccountController@update')->name('accounts.update');
+    Route::delete('/myaccount', 'AccountController@destroy')->name('accounts.destroy');
+});
+

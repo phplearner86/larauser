@@ -81,5 +81,19 @@ class User extends Authenticatable
 
         return $user;
     }
+
+    public function updateAccount($data)
+    {
+        $slug = $this->getSlug($data['name']);
+
+        $this->name = $data['name'];
+        $this->slug = $slug;
+        $this->email = $data['email'];
+        $this->password = bcrypt($data['password']);
+
+        $this->save();
+    }
+
+    
    
 }

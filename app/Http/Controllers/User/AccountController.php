@@ -8,6 +8,7 @@ use App\Http\Requests\AccountRequest;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -66,8 +67,11 @@ class AccountController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.accounts.edit')->with([
+            'user' => Auth::user()
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -78,7 +82,9 @@ class AccountController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        Auth::user()->updateAccount($request);
+
+        return $this->updated();
     }
 
     /**
@@ -90,5 +96,12 @@ class AccountController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    protected function updated()
+    {
+        $response = message('Your account has been saved.');
+
+        return back()->with($response);
     }
 }

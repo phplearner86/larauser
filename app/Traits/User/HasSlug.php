@@ -50,4 +50,11 @@ trait HasSlug
                 ->pluck('slug')
                 ->first();
     }
+
+    protected function getSlug($name)
+    {
+        $curr_name = $name ?: Auth::user()->name;
+
+        return strtolower($this->name) == strtolower($curr_name) ? $this->slug : static::uniqueNameSlug($curr_name);
+    }
 }
