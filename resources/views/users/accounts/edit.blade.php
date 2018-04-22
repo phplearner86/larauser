@@ -22,7 +22,13 @@
                     <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="{{ old('name') ?: $user->name }}">
+                        <input type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" id="name" name="name" placeholder="Enter your name" value="{{ old('name') ?: $user->name }}">
+
+                        @if ($errors->has('name'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                        @endif
                     </div>
                 </div>
 
@@ -30,7 +36,13 @@
                     <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
 
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{ old('email') ?: $user->email }}"> 
+                        <input type="text" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="email" name="email" placeholder="Enter your email" value="{{ old('email') ?: $user->email }}"> 
+
+                        @if ($errors->has('email'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
                     </div>
                 </div>
 
@@ -38,7 +50,13 @@
                     <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                     <div class="col-md-6">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Choose your password">
+                        <input type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" id="password" name="password" placeholder="Choose your password">
+
+                        @if ($errors->has('password'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
                     </div>
                 </div>
 
