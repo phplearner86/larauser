@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Role;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
@@ -36,7 +35,7 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\AccountRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AccountRequest $request)
@@ -76,7 +75,7 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\AccountRequest  $request
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
