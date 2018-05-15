@@ -40,11 +40,83 @@
         </table>
     </div>
 
-    {{-- Modals --}}
+    {{-- Create Modal --}}
+    <div class="modal" id="createAccountModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-    @include('users.accounts.partials._createModal')
-    @include('users.accounts.partials._editModal')
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fa fa-lock"></i>
+                            <span>Create Account</span>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
+                {{-- FORM --}}
+                <form id="createAccountForm">
+                    <div class="modal-body">
+
+                        <!-- Role -->
+                        <div class="form-group select-box">
+                            <label for="role_id">Role</label>
+                            <select class="role_id form-control req_place" name="role_id[]" id="role_id" multiple="multiple">
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <span class="invalid-feedback role_id"></span>
+                        </div>
+
+                        {{-- Name --}}
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input id="name" type="text" class="form-control name" name="name" placeholder="Enter name">
+
+                            <span class="invalid-feedback name"></span>
+                        </div>
+
+
+                        {{-- Email --}}
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="text" class="form-control email" name="email" placeholder="example@domain.com">
+
+                            <span class="invalid-feedback email"></span>
+                        </div>
+
+                        {{-- Password --}}
+                        <div class="form-group" >
+                            <label for="password">Password</label>
+                            <input id="password" type="password" class="form-control password" name="password" placeholder="Give password to the user">
+
+                            <span class="invalid-feedback password"></span>
+                        </div>
+
+                        <div class="form-group" id="check-password">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="create-password" id="autoPassword" value="auto" checked="">
+                                <label class="form-check-label" for="autoPassword">
+                                    Auto generate password
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-account" id="storeAccount">Create account</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>    
 @endsection
 
 @section('scripts')
@@ -54,12 +126,9 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     <script>
-
-        // ACCOUNT
         var table = $('#accountsTable')
-        var adminAccountsUrl = "{{ route('admin.accounts.index') }}"
-
-        // Create
+        var apiAccountsUrl = "{{ route('api.accounts.index') }}"
+        var adminAccountsUrl = "{{ route('admin.accounts.store') }}"
         var createAccountForm = $('#createAccountForm')
         var createAccountModal = $('#createAccountModal')
         var accountFields = ['role_id', 'name', 'email', 'password']
@@ -68,28 +137,22 @@
         var password = $('#password')
         password.hide()
 
+        //   createAccountModal.on('hidden.bs.modal', function(){
+
+        //     clearForm(createAccountForm)
+
+        //     clearServerErrors(accountFields)
+        // })
+        
         createAccountModal.setAutofocus('role_id')
         createAccountModal.emptyModal(accountFields, createAccountForm, auto_password, password)
 
-        //Edit
-        var editAccountModal = $('#editAccountModal')
-        var editAccountForm = $('#editAccountForm')
-        var _autoPassword = $('#_autoPassword')
-        var _password = $('#_password')
-        _password.hide()
 
-        editAccountModal.setAutofocus('_role_id')
-        editAccountModal.emptyModal(accountFields, editAccountForm, _autoPassword, _password)
+        
 
+       
 
         createAccountForm
-            .find('select.role_id')
-            .select2({
-                placeholder: "Select roles",
-                width: "100%"
-            })
-
-            editAccountForm
             .find('select.role_id')
             .select2({
                 placeholder: "Select roles",
@@ -99,18 +162,43 @@
        // Datatable
         @include('users.accounts.js._datatable')
 
+
         // Create Account
-        @include('users.accounts.js._create')
+        $(document).on('click', '#createAccount', function(){
+            $('#createAccountModal').modal('show')
+
+            toggleHiddenFieldWithCheckbox(auto_password, password)
+        })
 
         //Store account
-        @include('users.accounts.js._store')
-
-        //Edit account
-        $(document).on('click', '#editAccount', function()
+        $(document).on('click', '#storeAccount', function()
         {
-            editAccountModal.modal('show')
-            toggleHiddenFieldWithRadio('manual', _password)
-             
+
+            var field = $('#autoPassword')
+            var password = generatePassword(field)
+
+            var data = {
+                role_id: $('#role_id').val(), 
+                name: $('#name').val(), 
+                email: $('#email').val(), 
+                password: password, 
+            }
+
+            $.ajax({
+                url: adminAccountsUrl,
+                type: 'POST',
+                data: data,
+                success: function(response)
+                {
+
+                    datatable.ajax.reload()
+                    successResponse(createAccountModal, response.message)
+                },
+                error: function(response)
+                {
+                    errorResponse(createAccountModal, response.responseJSON.errors)
+                }
+            })
         })
 
     </script>
