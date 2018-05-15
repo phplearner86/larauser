@@ -494,3 +494,14 @@ function setAvatar(avatarFilename, className)
 {
     return '<img src="/images/avatars/'+ avatarFilename +'" class="'+className+'">';
 }
+
+function getUserRoles(roles)
+{
+    var roleIds = []
+
+    $.each(roles, function(key, role){
+        roleIds.push(role.id)
+    })
+
+    return roleIds
+}

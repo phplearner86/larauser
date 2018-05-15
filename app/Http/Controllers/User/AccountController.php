@@ -67,7 +67,7 @@ class AccountController extends Controller
         $user = User::findBy($userId, $field='id');
 
         return response([
-            'user' => $user
+            'user' => $user->load('roles')
         ]);
     }
 

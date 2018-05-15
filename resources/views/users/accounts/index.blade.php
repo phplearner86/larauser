@@ -140,8 +140,32 @@
         
         $(document).on('click','#editAccount', function(){
             $('#editAccountModal').modal('show');
-            
+
             toggleHiddenFieldWithRadio('manual', _password)
+
+            var user = $(this).val()
+            var editAccountUrl =  adminAccountsUrl + '/' + user
+
+            $.ajax({
+                type: "GET",
+                url: editAccountUrl,
+                success: function(response){
+
+                    var user = response.user
+                    // var roleIds = []
+
+                    // $.each(user.roles, function(key, role){
+                    //     roleIds.push(role.id)
+                    //     console.log(role)
+                    // })
+                    var roleIds = getUserRoles(user.roles)
+
+                    $('#_name').val(user.name)
+                    $('#_email').val(user.email)
+                    $('#_role_id').val(roleIds).trigger('change')
+
+                }
+            })
         })
         
 
