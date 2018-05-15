@@ -56,8 +56,7 @@
 
     <script>
         var table = $('#accountsTable')
-        var apiAccountsUrl = "{{ route('api.accounts.index') }}"
-        var adminAccountsUrl = "{{ route('admin.accounts.store') }}"
+        var adminAccountsUrl = "{{ route('admin.accounts.index') }}"
 
         // Create account
         var createAccountForm = $('#createAccountForm')

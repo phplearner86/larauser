@@ -8,7 +8,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin.accounts.index') }}">
+        <a class="nav-link" href="{{ route('admin.accounts.list') }}">
           <span data-feather="file"></span>
           Accounts
         </a>

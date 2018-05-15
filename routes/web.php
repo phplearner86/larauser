@@ -30,6 +30,7 @@ Route::prefix('admin')->namespace('User')->name('admin.')
     /**
      * Account
      */
+    Route::get('/accounts/list', 'AccountController@accountsList')->name('accounts.list');
     Route::resource('accounts', 'AccountController', [
         'parameters' => ['accounts' => 'user'],
         'only' => ['index', 'store', 'update', 'destroy']

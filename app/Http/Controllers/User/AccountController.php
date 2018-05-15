@@ -18,6 +18,15 @@ class AccountController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) 
+        {
+            $users = User::all();
+            return ['data' => $users];
+        }
+    }
+
+    public function accountsList()
+    {
         $roles = Role::all();
         return view('users.accounts.index', compact('roles'));
     }
