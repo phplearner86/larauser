@@ -140,7 +140,7 @@
         
         $(document).on('click','#editAccount', function(){
             $('#editAccountModal').modal('show');
-
+            
             toggleHiddenFieldWithRadio('manual', _password)
         })
         

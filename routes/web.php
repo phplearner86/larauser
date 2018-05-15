@@ -32,8 +32,8 @@ Route::prefix('admin')->namespace('User')->name('admin.')
      */
     Route::get('/accounts/list', 'AccountController@accountsList')->name('accounts.list');
     Route::resource('accounts', 'AccountController', [
-        'parameters' => ['accounts' => 'user'],
-        'only' => ['index', 'store', 'update', 'destroy']
+        'parameters' => ['accounts' => 'userId'],
+        'only' => ['index', 'store', 'show', 'update', 'destroy']
     ]);
 
     /**

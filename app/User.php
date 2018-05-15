@@ -37,10 +37,10 @@ class User extends Authenticatable
         static::observe(UserObserver::class);
     }
 
-    // public function getRouteKeyName()
-    // {
-    //     return 'slug';
-    // }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function activationToken()
     {

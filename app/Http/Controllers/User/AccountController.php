@@ -62,9 +62,13 @@ class AccountController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($userId)
     {
-        //
+        $user = User::findBy($userId, $field='id');
+
+        return response([
+            'user' => $user
+        ]);
     }
 
     /**
