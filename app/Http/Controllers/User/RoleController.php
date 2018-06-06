@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RevokeRolesRequest;
 use App\Http\Requests\RoleRequest;
 use App\Role;
 use App\User;
@@ -96,13 +97,11 @@ class RoleController extends Controller
         return message('The role has been deleted');
     }
 
-    public function revoke(Request $request, $userId)
+    public function revoke(RevokeRolesRequest $request, $userId)
     {
         $user = User::findBy($userId, 'id');
 
-        $roles = Role::whereIn('id', $request->role_id)->get();
-
-        $user->roles()->detach($roles);
+        $user->revokeRoles($request->role_id);
 
         return message('The selected role(s) revoked');
 

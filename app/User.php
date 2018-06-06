@@ -4,6 +4,7 @@ namespace App;
 
 use App\ActivationToken;
 use App\Observers\UserObserver;
+use App\Role;
 use App\Traits\User\HasSlug;
 use App\Traits\User\VerifiesEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -93,6 +94,14 @@ class User extends Authenticatable
         $this->roles()->sync($data['role_id']);
 
         $this->save();
+    }
+
+    public function revokeRoles($roleId)
+    {
+
+        $roles = Role::whereIn('id', $roleId)->get();
+
+        $this->roles()->detach($roles);
     }
 
     

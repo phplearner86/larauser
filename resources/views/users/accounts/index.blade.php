@@ -204,6 +204,11 @@
         // Revoke roles
          
         var revokeRolesModal = $('#revokeRolesModal')
+        var revokeRolesForm = $('#revokeRolesForm')
+        var rolesFields = ['role_id']
+
+        // revokeRolesModal.emptyModal(rolesFields, revokeRolesForm)
+        revokeRolesModal.find('form').trigger('reset')
 
         $(document).on('click', '#editRoles', function(){
 
