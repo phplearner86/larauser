@@ -210,8 +210,9 @@
             revokeRolesModal.modal('show')
 
             var user = $(this).attr('data-user')
-
             var userRolesUrl = adminAccountsUrl + '/' + user
+
+            $('#revokeRoles').val(user)
 
             $.ajax({
                 type:'GET',
@@ -220,6 +221,33 @@
                     $('#role').html(response.revoke_roles_html)
                 }
             })
+        });
+
+        $(document).on('click', '#revokeRoles', function(){
+
+           
+           var user = $(this).val()
+           var revokeRolesUrl = '/admin/roles-revoke/' + user
+
+           var roleIds =  getCheckBoxValues('role_id')
+
+           var data = {
+            'role_id': roleIds
+           }
+
+           $.ajax({
+                type:'DELETE',
+                url:revokeRolesUrl,
+                data:data,
+                success: function(response){
+                    successResponse(revokeRolesModal, response.message)
+                    datatable.ajax.reload()
+                },
+                error: function(response){
+                    errorResponse(revokeRolesModal, response.responseJSON.errors)
+                }
+           })
+
         })
 
         

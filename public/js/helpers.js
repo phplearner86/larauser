@@ -505,3 +505,19 @@ function getUserRoles(roles)
 
     return roleIds
 }
+
+function getCheckBoxValues(checkbox)
+{
+    var checkedValues = []
+
+    var checked  = $('input[name*="'+ checkbox +'"]:checked')
+
+    $.each(checked, function(key, inputCheckbox){
+
+        var roleId = $(this).val()
+
+        checkedValues.push(roleId)
+    })
+
+    return checkedValues;
+}
