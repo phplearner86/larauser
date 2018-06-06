@@ -90,6 +90,7 @@ class User extends Authenticatable
         $this->slug = $slug;
         $this->email = $data['email'];
         $this->password = bcrypt($data['password']);
+        $this->roles()->sync($data['role_id']);
 
         $this->save();
     }

@@ -18,10 +18,11 @@ class AccountController extends Controller
      */
     public function index()
     {
+
         if (request()->ajax()) 
         {
             $users = User::all();
-            return ['data' => $users];
+            return ['data' => $users->load('roles:name')];
         }
     }
 
@@ -66,8 +67,11 @@ class AccountController extends Controller
     {
         $user = User::findBy($userId, $field='id');
 
+        $revoke_roles_html = view('users.roles.partials._revokeRolesHtml', compact('user'))->render();
+
         return response([
-            'user' => $user->load('roles')
+            'user' => $user->load('roles'),
+            'revoke_roles_html' => $revoke_roles_html,
         ]);
     }
 
@@ -92,8 +96,15 @@ class AccountController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(AccountRequest $request, User $user)
+    public function update(AccountRequest $request, $userId=null)
     {
+        if (request()->ajax()) 
+        {
+            $user = User::findBy($userId, $field='id');
+            $user->updateAccount($request);
+
+            return message('Account has been updated');
+        }
         Auth::user()->updateAccount($request);
 
         return $this->updated();

@@ -1,0 +1,10 @@
+Update ajax
+var password = changePassword()
+
+Chekliranu vrednost za password iz radija
+
+var checked = $("form input[type='radio']:checked").val();
+
+sync roles
+
+

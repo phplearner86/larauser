@@ -6,6 +6,7 @@ var datatable = table.DataTable({
      deferRender: true,
      "columns": [
          {
+            {{-- First column with ordinal nmbers --}}
              render:function(data, type, row, meta){
                  return ""
              },
@@ -20,6 +21,12 @@ var datatable = table.DataTable({
          },
          {
              data: "email",
+         },
+         {
+            data: "roles",
+             render:function(data,type,row,meta){
+                return getRoleNames(data).length > 0 ? getRoleNames(data) + "<a href='#' data-user=" + row.id + " id='editRoles'> Revoke</a>" : ''
+            }
          },
          {
              data: "verified",
@@ -54,5 +61,7 @@ var datatable = table.DataTable({
      ]
 
  });
+
+{{-- Set ordinal numbers for first column --}}
 
  setTableCounterColumn(datatable)

@@ -30,6 +30,7 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Roles</th>
                 <th>Status</th>
                 <th>Joined</th>
                 <th>Actions</th>
@@ -45,6 +46,10 @@
 
     {{-- Edit Modal --}}
     @include('users.accounts.partials.modals._edit')
+
+    {{-- Revoke roles --}}
+    @include('users.roles.partials._revokeRoles')
+
 
 @endsection
 
@@ -125,9 +130,8 @@
                 data: data,
                 success: function(response)
                 {
-
-                    datatable.ajax.reload()
                     successResponse(createAccountModal, response.message)
+                    datatable.ajax.reload()
                 },
                 error: function(response)
                 {
@@ -137,8 +141,8 @@
         })
 
         //Edit account
-        
         $(document).on('click','#editAccount', function(){
+
             $('#editAccountModal').modal('show');
 
             toggleHiddenFieldWithRadio('manual', _password)
@@ -146,18 +150,14 @@
             var user = $(this).val()
             var editAccountUrl =  adminAccountsUrl + '/' + user
 
+            $('#updateAccount').val(user)
+
             $.ajax({
                 type: "GET",
                 url: editAccountUrl,
                 success: function(response){
 
                     var user = response.user
-                    // var roleIds = []
-
-                    // $.each(user.roles, function(key, role){
-                    //     roleIds.push(role.id)
-                    //     console.log(role)
-                    // })
                     var roleIds = getUserRoles(user.roles)
 
                     $('#_name').val(user.name)
@@ -167,6 +167,61 @@
                 }
             })
         })
+
+
+        //Update account
+        $(document).on('click', '#updateAccount', function(){
+
+            var user = $(this).val()
+            var updateAccountUrl =  adminAccountsUrl + '/' + user
+            var password = changePassword()
+
+            var data = 
+            {
+                role_id:$('#_role_id').val(),
+                name:$('#_name').val(),
+                email:$('#_email').val(),
+                password: password,
+                password_confirmation: password
+            }
+
+            $.ajax({
+                type:'PUT',
+                url: updateAccountUrl,
+                data: data,
+                success: function(response)
+                {
+                    successResponse(editAccountModal, response.message)
+                    datatable.ajax.reload()
+                },
+                error: function(response)
+                {
+                    errorResponse(editAccountModal, response.responseJSON.errors)
+                }
+            })
+        });
+
+        // Revoke roles
+         
+        var revokeRolesModal = $('#revokeRolesModal')
+
+        $(document).on('click', '#editRoles', function(){
+
+            revokeRolesModal.modal('show')
+
+            var user = $(this).attr('data-user')
+
+            var userRolesUrl = adminAccountsUrl + '/' + user
+
+            $.ajax({
+                type:'GET',
+                url: userRolesUrl,
+                success: function(response){
+                    $('#role').html(response.revoke_roles_html)
+                }
+            })
+        })
+
         
 
     </script>

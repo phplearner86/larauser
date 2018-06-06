@@ -25,7 +25,7 @@ class AccountRequest extends FormRequest
      */
     public function rules()
     {
-        $userId = Auth::id();
+        $userId = $this->route()->parameter('userId') ?: Auth::id();
 
         switch ($this->method()) {
             case 'POST':
