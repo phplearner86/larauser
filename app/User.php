@@ -4,6 +4,7 @@ namespace App;
 
 use App\ActivationToken;
 use App\Observers\UserObserver;
+use App\Profile;
 use App\Role;
 use App\Traits\User\HasSlug;
 use App\Traits\User\VerifiesEmail;
@@ -51,6 +52,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 
     public static function findBy($value, $field='email')
@@ -102,6 +108,18 @@ class User extends Authenticatable
         $roles = Role::whereIn('id', $roleId)->get();
 
         $this->roles()->detach($roles);
+    }
+
+    public function createOrUpdateProfile($data)
+    {
+
+        $profile = $this->profile ?: new Profile();
+
+        $profile->name = $data->name;
+
+        $this->profile()->save($profile);
+
+        return $profile;
     }
 
     

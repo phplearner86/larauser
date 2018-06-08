@@ -44,6 +44,16 @@ Route::prefix('admin')->namespace('User')->name('admin.')
         'only' => ['index', 'show', 'store', 'update', 'destroy']
     ]);
 
+    /**
+     * Profile
+     */
+    Route::post('/profiles/{userId}', 'ProfileController@store')->name('profiles.store');
+    Route::get('/profiles/{userId}/create', 'ProfileController@create')->name('profiles.create');
+    Route::resource('profiles', 'ProfileController', [
+        'parameters' => ['profiles' => 'userId'],
+        'only' => ['show', 'update', 'destroy']
+    ]);
+
 });
 
 /**
@@ -56,5 +66,12 @@ Route::prefix('settings')->namespace('User')->name('users.')->group(function(){
     Route::get('/myaccount', 'AccountController@edit')->name('accounts.edit');
     Route::put('/myaccount', 'AccountController@update')->name('accounts.update');
     Route::delete('/myaccount', 'AccountController@destroy')->name('accounts.destroy');
+
+    /**
+    * Profile
+    */
+    Route::get('/myprofile', 'ProfileController@edit')->name('profiles.edit');
+    Route::put('/myprofile', 'ProfileController@update')->name('profiles.update');
+    Route::delete('/myprofile', 'ProfileController@destroy')->name('profiles.destroy');
 });
 
