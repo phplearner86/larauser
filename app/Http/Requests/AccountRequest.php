@@ -50,6 +50,7 @@ class AccountRequest extends FormRequest
                     'email' => 'required|string|email|max:100|unique:users,email,'.$userId,
                     'password' => [
                         'nullable', 
+                        'required_if:create_password,manual',
                         'string', 
                         'min:6', 
                         new differentFromName($this->name, $this->password),

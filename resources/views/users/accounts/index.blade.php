@@ -74,7 +74,7 @@
         
         
         createAccountModal.setAutofocus('role_id')
-        createAccountModal.emptyModal(accountFields, createAccountForm, auto_password, password)
+        createAccountModal.emptyModal(accountFields, auto_password, password)
 
 
         createAccountForm
@@ -91,6 +91,9 @@
         var _auto_password = $('#_autoPassword')
         var _password = $('#_password')
         _password.hide()
+
+        editAccountModal.setAutofocus('_role_id')
+        editAccountModal.emptyModal(accountFields, _auto_password, _password)
 
         editAccountForm
             .find('select.role_id')
@@ -201,14 +204,13 @@
             })
         });
 
-        // Revoke roles
+        // Edit user roles dynamically
          
         var revokeRolesModal = $('#revokeRolesModal')
         var revokeRolesForm = $('#revokeRolesForm')
         var rolesFields = ['role_id']
 
-        // revokeRolesModal.emptyModal(rolesFields, revokeRolesForm)
-        revokeRolesModal.find('form').trigger('reset')
+        revokeRolesModal.emptyModal(rolesFields, revokeRolesForm)
 
         $(document).on('click', '#editRoles', function(){
 
@@ -228,6 +230,7 @@
             })
         });
 
+        // Revoke user roles
         $(document).on('click', '#revokeRoles', function(){
 
            
@@ -252,8 +255,27 @@
                     errorResponse(revokeRolesModal, response.responseJSON.errors)
                 }
            })
+        });
 
+
+        //Delete account
+        
+        $(document).on('click', '#deleteAccount', function(){
+
+            var user = $(this).val()
+            var deleteAccountUrl = adminAccountsUrl + '/' + user
+
+            $.ajax({
+                type:'DELETE',
+                url:deleteAccountUrl,
+                success: function(response){
+                    userNotification(response.message)
+                    datatable.ajax.reload()
+                }
+            })
         })
+
+
 
         
 

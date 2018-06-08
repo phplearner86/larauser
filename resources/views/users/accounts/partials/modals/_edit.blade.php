@@ -58,21 +58,21 @@
                     <div class="form-group" id="check-password">
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="create-password" id="_unchangedPassword" value="unchanged" checked="">
+                            <input class="form-check-input" type="radio" name="create_password" id="_unchangedPassword" value="unchanged" checked="">
                             <label class="form-check-label" for="_unchangedPassword">
                                 Do not change password
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="create-password" id="_autoPassword" value="auto">
+                            <input class="form-check-input" type="radio" name="create_password" id="_autoPassword" value="auto">
                             <label class="form-check-label" for="_autoPassword">
                                 Auto generate password
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="create-password" id="_manualPassword" value="manual">
+                            <input class="form-check-input" type="radio" name="create_password" id="_manualPassword" value="manual">
                             <label class="form-check-label" for="_manualPassword">
                                 Create password for the user
                             </label>

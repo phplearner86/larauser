@@ -65,8 +65,8 @@ class AccountController extends Controller
      */
     public function show($userId)
     {
-        $user = User::findBy($userId, $field='id');
-
+        $user = User::find($userId);
+        
         $revoke_roles_html = view('users.roles.partials._revokeRolesHtml', compact('user'))->render();
 
         return response([
@@ -100,7 +100,8 @@ class AccountController extends Controller
     {
         if (request()->ajax()) 
         {
-            $user = User::findBy($userId, $field='id');
+            $user = User::find($userId);
+
             $user->updateAccount($request);
 
             return message('Account has been updated');
@@ -116,9 +117,13 @@ class AccountController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($userId)
     {
-        //
+        $user = User::find($userId);
+
+        $user->delete();
+
+        return message('User has been deleted');
     }
 
     protected function updated()
