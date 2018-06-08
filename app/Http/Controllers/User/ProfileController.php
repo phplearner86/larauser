@@ -39,12 +39,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request, $userId)
     {
-        $user = User::find($userId);
-
-        $user->createOrUpdateProfile($request);
-
-        return back();
-
+        //
     }
 
     /**
@@ -78,7 +73,15 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $userId)
     {
-        //
+        $user = User::find($userId);
+
+        $user->createOrUpdateProfile($request);
+
+        if(request()->ajax()){
+            return message('created');
+        }
+
+        return back();
     }
 
     /**
