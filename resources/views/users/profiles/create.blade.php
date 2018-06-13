@@ -19,8 +19,8 @@
 
     <div class="col-md-3">
         <div class='text-center' id="profileAvatar">
-            <img src="{{ asset('images/avatars/default.jpg') }}" alt="" class="image">
-            <button class="btn btn-link" id="changeAvatar">Change</button>
+            <img src="" alt="" class="image">
+            <button class="btn btn-link" id="changeAvatar" value="{{ $user->profile->id }}">Change</button>
         </div>
     </div>
 </div>
@@ -102,10 +102,34 @@
     })
 
     //Change avatar
+    
     var avatarModal = $('#avatarModal')
+    
     $(document).on('click', '#changeAvatar', function(){
         avatarModal.modal('show')
+        var user = $(this).val()
+        $('#saveAvatar').val(user)
     })
+
+    $(document).on('click', '#saveAvatar', function(){
+        
+        var user = $(this).val()
+        var saveAvatarUrl = '/admin/avatars/' + user
+        var data = {
+            filename:$('#avatar').val()
+        }
+
+        $.ajax({
+            type:'PUT',
+            url:saveAvatarUrl,
+            data:data,
+            success: function(response){
+                console.log(response)
+            }
+        })
+
+    })
+
 
    </script>
 @endsection

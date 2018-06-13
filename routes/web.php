@@ -54,6 +54,14 @@ Route::prefix('admin')->namespace('User')->name('admin.')
         'only' => ['show', 'update', 'destroy']
     ]);
 
+    /**
+     * Avatar
+     */
+    Route::resource('avatars', 'AvatarController', [
+        'parameters' => ['avatars' => 'profile'],
+        'only' => ['show', 'update']
+    ]);
+
 });
 
 /**

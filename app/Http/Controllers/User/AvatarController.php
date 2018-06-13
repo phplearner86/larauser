@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Avatar;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Profile;
+use Illuminate\Http\Request;
 
 class AvatarController extends Controller
 {
@@ -36,7 +37,7 @@ class AvatarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -68,9 +69,14 @@ class AvatarController extends Controller
      * @param  \App\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Avatar $avatar)
+    public function update(Request $request, Profile $profile)
     {
-        //
+        $avatar =  $profile->avatar ?: new Avatar();
+
+        $avatar->filename = $request->filename;
+        $profile->avatar()->save($avatar); 
+
+        return message('Avatar has been changed');
     }
 
     /**
