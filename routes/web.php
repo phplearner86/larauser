@@ -59,7 +59,7 @@ Route::prefix('admin')->namespace('User')->name('admin.')
      */
     Route::resource('avatars', 'AvatarController', [
         'parameters' => ['avatars' => 'profile'],
-        'only' => ['show', 'update']
+        'only' => ['show', 'edit', 'update']
     ]);
 
 });

@@ -37,11 +37,11 @@
         </button>
       </div>
 
-        <form id="saveAvatarForm" enctype="multipart/form-data">
+        <form id="avatarForm" enctype="multipart/form-data">
             <div class="modal-body">
                 <label for="avatar">Avatar</label>
                 <div class="form-group">
-                    <input type="file" name="filename" id="avatar">
+                    <input type="file" name="filename" id="filename">
                 </div>
             </div>
 
@@ -104,9 +104,12 @@
     //Change avatar
     
     var avatarModal = $('#avatarModal')
+    var avatarForm = $('#avatarForm')
     
     $(document).on('click', '#changeAvatar', function(){
+
         avatarModal.modal('show')
+
         var user = $(this).val()
         $('#saveAvatar').val(user)
     })
@@ -115,16 +118,19 @@
         
         var user = $(this).val()
         var saveAvatarUrl = '/admin/avatars/' + user
-        var data = {
-            filename:$('#avatar').val()
-        }
+
+
+        var formData = new FormData(avatarForm[0])
+        formData.append('_method', 'PUT')
 
         $.ajax({
-            type:'PUT',
+            type:'POST',
             url:saveAvatarUrl,
-            data:data,
+            data:formData,
+            contentType:false,
+            processData:false,
             success: function(response){
-                console.log(response)
+                successResponse(avatarModal, response.message)
             }
         })
 

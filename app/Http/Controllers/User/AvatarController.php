@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class AvatarController extends Controller
 {
+    protected $avatarPath = 'images/avatars';
+
     /**
      * Display a listing of the resource.
      *
@@ -57,9 +59,9 @@ class AvatarController extends Controller
      * @param  \App\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function edit(Avatar $avatar)
+    public function edit(Profile $profile)
     {
-        //
+        //return view('users.profiles.edit', compact('profile'));
     }
 
     /**
@@ -71,12 +73,22 @@ class AvatarController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        $avatar =  $profile->avatar ?: new Avatar();
 
-        $avatar->filename = $request->filename;
-        $profile->avatar()->save($avatar); 
+
+        $file = $request->filename;
+        $filename = $profile->id . '-' . $file->getClientOriginalName();
+
+        $profile->avatar ? unlink($this->avatarPath . '/' . $profile->avatar->filename) : "";
+        $file->move($this->avatarPath, $filename);
+        
+        $avatar =  $profile->avatar ?: new Avatar();
+        $avatar->filename = $filename;
+
+        $profile->avatar()->save($avatar);
 
         return message('Avatar has been changed');
+        
+        
     }
 
     /**
