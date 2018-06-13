@@ -7,7 +7,7 @@
 
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-2">
         <h2>User profile</h2>
         <p id="userName">Name: {{ optional($user->profile)->name ?: 'N/A' }}</p>
         <p>
@@ -17,44 +17,36 @@
         </p>
     </div>
 
-    <div class="col-md-6">
-        {{-- <form action="{{ route('admin.profiles.store', $user->id) }}" method="POST">
-            @csrf
-        
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?: optional($user->profile)->name }}" placeholder="Enter name">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-info" type="submit">
-                    {{ $user->profile ? 'Save changes' : 'Create profile' }}
-                </button>
-            </div>
-
-        </form> --}}
+    <div class="col-md-3">
+        <div class='text-center' id="profileAvatar">
+            <img src="{{ asset('images/avatars/default.jpg') }}" alt="" class="image">
+            <button class="btn btn-link" id="changeAvatar">Change</button>
+        </div>
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="saveProfileModal">
+@include('users.profiles.partials.modals._create')
+
+<div class="modal" tabindex="-1" role="dialog" id="avatarModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">User profile</h5>
+        <h5 class="modal-title">Profile avatar</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-        <form id="saveProfileForm">
+        <form id="saveAvatarForm" enctype="multipart/form-data">
             <div class="modal-body">
+                <label for="avatar">Avatar</label>
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" value="{{ old('name') ?: optional($user->profile)->name }}" placeholder="Enter name">
+                    <input type="file" name="filename" id="avatar">
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveProfile">Save Profile</button>
+                <button type="button" class="btn btn-primary" id="saveAvatar">Save Avatar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </form>
@@ -107,7 +99,12 @@
         })
 
         console.log(saveProfileUrl)
+    })
 
+    //Change avatar
+    var avatarModal = $('#avatarModal')
+    $(document).on('click', '#changeAvatar', function(){
+        avatarModal.modal('show')
     })
 
    </script>
