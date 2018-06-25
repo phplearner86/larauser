@@ -15,4 +15,9 @@ class Profile extends Model
     {
         return $this->hasOne(Avatar::class);
     }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class);
+    }
 }

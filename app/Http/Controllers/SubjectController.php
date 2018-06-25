@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Profile;
-use App\User;
+use App\Subject;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,11 +22,9 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($userId)
+    public function create()
     {
-        $user = User::find($userId);
-
-        return view('users.profiles.create', compact('user'));
+        //
     }
 
     /**
@@ -37,7 +33,7 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $userId)
+    public function store(Request $request)
     {
         //
     }
@@ -45,10 +41,10 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function show($userId)
+    public function show(Subject $subject)
     {
         //
     }
@@ -56,10 +52,10 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function edit($userId)
+    public function edit(Subject $subject)
     {
         //
     }
@@ -68,31 +64,21 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $userId)
+    public function update(Request $request, Subject $subject)
     {
-        $user = User::find($userId);
-
-        $request->validate(['name' => 'nullable']);
-
-        $user->createOrUpdateProfile($request);
-
-        if(request()->ajax()){
-            return message('created');
-        }
-
-        return back();
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy($userId)
+    public function destroy(Subject $subject)
     {
         //
     }

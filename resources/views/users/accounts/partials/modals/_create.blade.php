@@ -35,7 +35,7 @@
                         <label for="name">Name</label>
                         <input id="name" type="text" class="form-control name" name="name" placeholder="Enter name">
 
-                        <span class="invalid-feedback name"></span>
+                        <span class="invalid-feedback name"></span> 
                     </div>
 
 

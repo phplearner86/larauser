@@ -6,6 +6,7 @@ use App\Avatar;
 use App\Http\Controllers\Controller;
 use App\Profile;
 use Illuminate\Http\Request;
+//use Illuminate\Http\Requests\Request;
 
 class AvatarController extends Controller
 {
@@ -74,7 +75,9 @@ class AvatarController extends Controller
     public function update(Request $request, Profile $profile)
     {
 
-
+        $request->validate([
+            'filename' => 'required'
+        ]);
         $file = $request->filename;
         $filename = $profile->id . '-' . $file->getClientOriginalName();
 

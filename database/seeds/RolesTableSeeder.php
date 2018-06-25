@@ -13,8 +13,12 @@ class RolesTableSeeder extends Seeder
     {
         $roles = ['superadmin', 'admin', 'user'];
 
-        foreach ($roles as $role) {
-         factory(App\Role::class)->create(['name' => $role]);
+        foreach ($roles as $role)
+         {
+             factory(App\Role::class)->create([
+                'name' => $role, 
+                'slug' => str_slug($role)
+            ]);
          
         }
     }

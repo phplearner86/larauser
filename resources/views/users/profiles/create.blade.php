@@ -10,6 +10,8 @@
     <div class="col-md-2">
         <h2>User profile</h2>
         <p id="userName">Name: {{ optional($user->profile)->name ?: 'N/A' }}</p>
+
+        
         <p>
             <button id="openModal" value="{{ $user->id }}">
                 {{ $user->profile ? 'Save changes' : 'Create profile' }}
@@ -17,125 +19,78 @@
         </p>
     </div>
 
-    <div class="col-md-3">
+   {{--  <div class="col-md-3">
         <div class='text-center' id="profileAvatar">
-            <img src="" alt="" class="image">
-            <button class="btn btn-link" id="changeAvatar" value="{{ $user->profile->id }}">Change</button>
+            <div id="profileImage">
+            <img src="{{ asset('images/avatars/'.optional($user->profile->avatar)->filename) }}"  alt="" width="150px">
+        </div>
+            <button class="btn btn-link" id="changeAvatar" value="{{ $user->profile->id }}">Change Avatar</button>
+        </div>
+    </div> --}}
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <button class="btn btn-default btn-subject"  value="{{ $user->id }}">
+            {{ $user->profile->subjects->count() ? 'Change' : 'Add' }}
+        </button>
+        
+        <div id="profileSubjects">
+
+            @foreach ($user->profile->subjects as $subject)
+                <p>{{ $subject->name }}</p>
+            @endforeach
+
         </div>
     </div>
 </div>
 
 @include('users.profiles.partials.modals._create')
 
-<div class="modal" tabindex="-1" role="dialog" id="avatarModal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Profile avatar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+@include('users.avatars.partials.modals._create')
 
-        <form id="avatarForm" enctype="multipart/form-data">
-            <div class="modal-body">
-                <label for="avatar">Avatar</label>
-                <div class="form-group">
-                    <input type="file" name="filename" id="filename">
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="saveAvatar">Save Avatar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </form>
-
-    </div>
-  </div>
-</div>
+@include('users.subjects.partials.modals._create')
 
 @endsection
 
 @section('scripts')
    <script>
+    
+    @include('users.profiles.partials.js._all')
 
-    var saveProfileModal = $('#saveProfileModal')
+    //Subject
+    
+    var createSubjectModal = $('#createSubjectModal')
 
-    $(document).on('click', '#openModal', function(){
+    $(document).on('click', '.btn-subject', function(){
 
-       saveProfileModal.modal('show')
+        createSubjectModal.modal('show')
 
-       var user = $(this).val()
-
-       $('#saveProfile').val(user)
+        $('.btn-subject').attr('id', 'addSubject')
 
     })
 
-    //Create profile
-    
-    $(document).on('click', '#saveProfile', function(){
+    $(document).on('click', '#storeSubject', function(){
 
-
-        var user = $(this).val()
-        var saveProfileUrl = '/admin/profiles/' + user
-
-        var name = $('#name').val()
-        console.log(name)
+        var user = $('#addSubject').val()
         var data = {
-            'name':$('#name').val()
+            'subject_id': $('#createSubjectForm #subject_id').val()
         }
+        var url = '/admin/profiles/' + user
 
         $.ajax({
-            type:'PUT',
-            url:saveProfileUrl,
+            type:'PATCH',
+            url:url,
             data:data,
-            success: function(response)
+            success:function(response)
             {
-                console.log(response)
-                $('#userName').load(location.href + ' #userName')
-                saveProfileModal.modal('hide')
+                successResponse(createSubjectModal, response.message)
+                $('#profileSubjects').load(location.href + ' #profileSubjects')
+                $('.btn-subject').attr('id', 'updateSubject').text('Change')
             }
         })
-
-        console.log(saveProfileUrl)
     })
-
-    //Change avatar
-    
-    var avatarModal = $('#avatarModal')
-    var avatarForm = $('#avatarForm')
-    
-    $(document).on('click', '#changeAvatar', function(){
-
-        avatarModal.modal('show')
-
-        var user = $(this).val()
-        $('#saveAvatar').val(user)
-    })
-
-    $(document).on('click', '#saveAvatar', function(){
-        
-        var user = $(this).val()
-        var saveAvatarUrl = '/admin/avatars/' + user
-
-
-        var formData = new FormData(avatarForm[0])
-        formData.append('_method', 'PUT')
-
-        $.ajax({
-            type:'POST',
-            url:saveAvatarUrl,
-            data:formData,
-            contentType:false,
-            processData:false,
-            success: function(response){
-                successResponse(avatarModal, response.message)
-            }
-        })
-
-    })
-
 
    </script>
 @endsection

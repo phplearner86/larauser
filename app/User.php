@@ -115,9 +115,18 @@ class User extends Authenticatable
 
         $profile = $this->profile ?: new Profile();
 
-        $profile->name = $data->name;
+        
+        if ($data->name) 
+        {
+            $profile->name = $data->name;
+        }
 
         $this->profile()->save($profile);
+
+        if ($subjects = $data['subject_id']) 
+        {
+            $profile->subjects()->attach($subjects);
+        }
 
         return $profile;
     }
