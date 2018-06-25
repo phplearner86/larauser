@@ -50,7 +50,14 @@ class ProfileController extends Controller
      */
     public function show($userId)
     {
-        //
+        $user = User::find($userId);
+
+        if (request()->ajax()) 
+        {
+            return response([
+                'user' => $user->load('profile', 'profile.subjects')
+            ]);
+        }
     }
 
     /**

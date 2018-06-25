@@ -11,6 +11,18 @@ $(document).on('click', '#openModal', function(){
 
    $('#saveProfile').val(user)
 
+   var url = '/admin/profiles/' + user
+
+   $.ajax({
+        type:'GET',
+        url:url,
+        success:function(response)
+        {
+            var profile = response.user.profile
+            $('#name').val(profile.name)
+        }
+   })
+
 })
 
 //Create profile

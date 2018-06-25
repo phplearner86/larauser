@@ -13,7 +13,7 @@
 
         
         <p>
-            <button id="openModal" value="{{ $user->id }}">
+            <button id="openModal" id="" value="{{ $user->id }}">
                 {{ $user->profile ? 'Save changes' : 'Create profile' }}
             </button>
         </p>
@@ -32,8 +32,8 @@
 <div class="row">
     <div class="col-md-12">
 
-        <button class="btn btn-default btn-subject"  value="{{ $user->id }}">
-            {{ $user->profile->subjects->count() ? 'Change' : 'Add' }}
+        <button class="btn btn-default btn-subject" id="{{ optional($user->profile->subjects)->count() ? 'editSubject' : 'addSubject' }}"  value="{{ $user->id }}">
+            {{ optional($user->profile->subjects)->count() ? 'Change' : 'Add' }}
         </button>
         
         <div id="profileSubjects">
@@ -52,6 +52,8 @@
 
 @include('users.subjects.partials.modals._create')
 
+@include('users.subjects.partials.modals._edit')
+
 @endsection
 
 @section('scripts')
@@ -62,32 +64,53 @@
     //Subject
     
     var createSubjectModal = $('#createSubjectModal')
+    var editSubjectModal = $('#editSubjectModal')
 
     $(document).on('click', '.btn-subject', function(){
 
         createSubjectModal.modal('show')
 
-        $('.btn-subject').attr('id', 'addSubject')
+        //$('.btn-subject').attr('id', 'addSubject')
 
     })
 
-    $(document).on('click', '#storeSubject', function(){
+    @include('users.subjects.partials.js._store')
+   
 
-        var user = $('#addSubject').val()
-        var data = {
-            'subject_id': $('#createSubjectForm #subject_id').val()
-        }
+    $(document).on('click', '#editSubject', function(){
+
+        editSubjectModal.modal('show')
+
+        var user = $(this).val()
         var url = '/admin/profiles/' + user
 
         $.ajax({
-            type:'PATCH',
+            type:'GET',
             url:url,
-            data:data,
-            success:function(response)
-            {
-                successResponse(createSubjectModal, response.message)
-                $('#profileSubjects').load(location.href + ' #profileSubjects')
-                $('.btn-subject').attr('id', 'updateSubject').text('Change')
+            success: function(response){
+
+                var subjects = response.user.profile.subjects
+
+                var subjectIds = []
+                $.each(subjects, function(key, value){
+
+                    subjectIds.push(value.id)
+                })
+
+                 var html = ''
+                 
+                
+
+                for (i = 0; i < subjectIds.length; i++) { 
+
+                    html = '<div class="form-group"><label for="name">Subject</label><input type="text" name="subject_id" id="subject_id'+ i +'" class="form-control"></div>'
+                    
+                    $('#updatedSubject').append(html)
+
+                    $('#editSubjectForm #subject_id'+i+'').val(subjectIds[i])
+                    console.log(subjectIds[i])
+
+                }
             }
         })
     })
