@@ -80,17 +80,41 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $userId)
     {
+        return $request->all();
         $user = User::find($userId);
 
         $request->validate(['name' => 'nullable']);
 
-        $user->createOrUpdateProfile($request);
+        //$user->createOrUpdateProfile($request);
 
-        if(request()->ajax()){
-            return message('created');
+        // if(request()->ajax()){
+        //     return response(['profile' => $p]);
+        // }
+        
+        $profile = $user->profile ?: new Profile();
+
+        
+        if ($request->name) 
+        {
+            $profile->name = $request->name;
         }
 
-        return back();
+        $user->profile()->save($profile);
+
+        if ($subjects = $request->subject_id) 
+        {
+            $profile->subjects()->attach($subjects);
+        }
+
+        if (request()->ajax()) 
+        {
+            return response([
+                'user' => $user->load('profile', 'profile.subjects'),
+                'message' => 'bla'
+            ]);
+        }
+
+        //return back();
     }
 
     /**
@@ -103,4 +127,9 @@ class ProfileController extends Controller
     {
         //
     }
+
+   
+
+
+    
 }

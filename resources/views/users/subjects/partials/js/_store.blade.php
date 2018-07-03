@@ -1,8 +1,16 @@
  $(document).on('click', '#storeSubject', function(){
 
+        
         var user = $('#addSubject').val()
+
+        
+
+
+
+
+
         var data = {
-            'subject_id': $('#createSubjectForm #subject_id').val()
+            'subject_id': $('input[name="subject_id"').val()
         }
         var url = '/admin/profiles/' + user
 

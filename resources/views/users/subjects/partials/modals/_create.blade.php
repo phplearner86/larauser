@@ -10,10 +10,17 @@
       <div class="modal-body">
 
         <form id="createSubjectForm">
-            <div class="form-group">
-              <label for="name">Subject</label>
-              <input type="text" name="subject_id" id="subject_id" class="form-control">
-            </div>
+            
+              <div class="form-inline">
+                <label for="name">Subject</label>
+                
+                  <input type="text" name="subject_id[]" {{-- id="subject_id" --}} class="form-control ml-3 mr-3">
+                  <button class="btn btn-success btn-sm form-control" id="addField">Add</button>
+                
+              </div>
+            
+    
+            
         </form>
 
       </div>

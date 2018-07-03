@@ -128,7 +128,7 @@ class User extends Authenticatable
             $profile->subjects()->attach($subjects);
         }
 
-        return $profile;
+        return  $profile;
     }
 
     

@@ -20,4 +20,9 @@ class Profile extends Model
     {
         return $this->belongsToMany(Subject::class);
     }
+
+    public function days()
+    {
+        return $this->belongsToMany(Day::class)->withPivot('start', 'end');
+    }
 }

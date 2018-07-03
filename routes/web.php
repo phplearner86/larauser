@@ -6,6 +6,22 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', 'PageController@index')->name('index');
+Route::get('/test/{userId}', 'PageController@test')->name('test');
+Route::get('/test/show/{userId}', 'PageController@show')->name('show');
+Route::post('/test/{userId}', 'PageController@upgrade')->name('upgrade');
+Route::put('/test/{userId}', 'PageController@update')->name('update');
+Route::delete('/test/{userId}', 'PageController@deleteall')->name('deleteall');
+
+
+
+
+Route::get('/days/{profile}', 'PageController@getDays')->name('getDays');
+Route::get('/days/all/{profile}', 'PageController@showDays')->name('showDays');
+Route::post('/days/{profile}', 'PageController@createSchedule')->name('createSchedule');
+Route::put('/days/{profile}', 'PageController@updateDays')->name('updateDays');
+Route::get('/days/{profile}/edit', 'PageController@editDays')->name('editDays');
+
+
 
 Route::get('/home', 'PageController@home')->name('home');
 

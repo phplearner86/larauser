@@ -70,16 +70,43 @@
 
         createSubjectModal.modal('show')
 
-        //$('.btn-subject').attr('id', 'addSubject')
+        $('.btn-subject').attr('id', 'addSubject')
+
+
 
     })
+// var i = 0
+//     $(document).on('click', '.btn-success', function(event){
+//             if(i<4)
+//             {
+               
+//             add_html  =   '<div class="form-inline"><label for="name">Subject</label><input type="text" name="subject_id[]" id="subject_id" class="form-control ml-3 mr-3"><button class="btn btn-success btn-sm form-control" id="addField">Add</button></div>'
+            
+//                 $(this).removeClass('btn-success').addClass("btn-warning").text('Remove')
+//                 $(this).parent().after(add_html)
+//                 i = i + 1
+//             event.preventDefault()
+//             }
+//             else{
+//                 event.preventDefault()
+//             }
+//             // $('.btn-success').after(add_html).removeClass('btn-success').addClass("btn-warning").attr('id','removeField').text('Remove')
+//             // $(this).parent().addClass('remove')
+//         });
 
+//     $(document).on('click', '.btn-warning', function() {
+//         $(this).parent().remove();
+//         i = i-1
+//             })
+
+    
     @include('users.subjects.partials.js._store')
    
 
     $(document).on('click', '#editSubject', function(){
 
         editSubjectModal.modal('show')
+        createSubjectModal.modal('hide')
 
         var user = $(this).val()
         var url = '/admin/profiles/' + user

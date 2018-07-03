@@ -64,4 +64,4 @@ var datatable = table.DataTable({
 
 {{-- Set ordinal numbers for first column --}}
 
- setTableCounterColumn(datatable)
+ setTableCounterColumn(datatable, table)
