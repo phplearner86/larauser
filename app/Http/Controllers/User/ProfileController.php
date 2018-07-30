@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Day;
 use App\Http\Controllers\Controller;
 use App\Profile;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -48,14 +50,14 @@ class ProfileController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($userId)
+    public function show($profileId)
     {
-        $user = User::find($userId);
+        $profile = Profile::find($profileId);
 
-        if (request()->ajax()) 
+        if (request()->ajax())
         {
             return response([
-                'user' => $user->load('profile', 'profile.subjects')
+                'profile' => $profile,
             ]);
         }
     }
@@ -66,9 +68,17 @@ class ProfileController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($userId)
+    public function edit($profileId)
     {
-        //
+        $profile = Profile::find($profileId);
+        $days = Day::all();
+        $roles = Role::all();
+
+        return view('users.profiles.edit',with([
+            'profile' => $profile,
+            'days' => $days,
+            'roles' => $roles,
+        ]));
     }
 
     /**
@@ -78,43 +88,9 @@ class ProfileController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $userId)
+    public function update($profileId)
     {
-        return $request->all();
-        $user = User::find($userId);
-
-        $request->validate(['name' => 'nullable']);
-
-        //$user->createOrUpdateProfile($request);
-
-        // if(request()->ajax()){
-        //     return response(['profile' => $p]);
-        // }
-        
-        $profile = $user->profile ?: new Profile();
-
-        
-        if ($request->name) 
-        {
-            $profile->name = $request->name;
-        }
-
-        $user->profile()->save($profile);
-
-        if ($subjects = $request->subject_id) 
-        {
-            $profile->subjects()->attach($subjects);
-        }
-
-        if (request()->ajax()) 
-        {
-            return response([
-                'user' => $user->load('profile', 'profile.subjects'),
-                'message' => 'bla'
-            ]);
-        }
-
-        //return back();
+       
     }
 
     /**

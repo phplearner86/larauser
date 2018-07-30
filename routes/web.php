@@ -6,22 +6,6 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', 'PageController@index')->name('index');
-Route::get('/test/{userId}', 'PageController@test')->name('test');
-Route::get('/test/show/{userId}', 'PageController@show')->name('show');
-Route::post('/test/{userId}', 'PageController@upgrade')->name('upgrade');
-Route::put('/test/{userId}', 'PageController@update')->name('update');
-Route::delete('/test/{userId}', 'PageController@deleteall')->name('deleteall');
-
-
-
-
-Route::get('/days/{profile}', 'PageController@getDays')->name('getDays');
-Route::get('/days/all/{profile}', 'PageController@showDays')->name('showDays');
-Route::post('/days/{profile}', 'PageController@createSchedule')->name('createSchedule');
-Route::put('/days/{profile}', 'PageController@updateDays')->name('updateDays');
-Route::get('/days/{profile}/edit', 'PageController@editDays')->name('editDays');
-
-
 
 Route::get('/home', 'PageController@home')->name('home');
 
@@ -41,43 +25,56 @@ Route::resource('/accounts/token', 'Auth\ActivationController', [
 /**
  * Admin
  */
-Route::prefix('admin')->namespace('User')->name('admin.')
-    ->group(function (){
-    /**
-     * Account
-     */
-    Route::get('/accounts/list', 'AccountController@accountsList')->name('accounts.list');
-    Route::resource('accounts', 'AccountController', [
-        'parameters' => ['accounts' => 'userId'],
-        'only' => ['index', 'store', 'show', 'update', 'destroy']
-    ]);
+Route::prefix('admin')->name('admin.')->group(function (){
 
-    /**
-     * Role
-     */
-    Route::delete('roles-revoke/{userId}', 'RoleController@revoke')->name('roles.revoke');
-    Route::resource('roles', 'RoleController', [
-        'only' => ['index', 'show', 'store', 'update', 'destroy']
-    ]);
+    //User
+    Route::namespace('User')->group(function(){
 
-    /**
-     * Profile
-     */
-    Route::post('/profiles/{userId}', 'ProfileController@store')->name('profiles.store');
-    Route::get('/profiles/{userId}/create', 'ProfileController@create')->name('profiles.create');
-    Route::resource('profiles', 'ProfileController', [
-        'parameters' => ['profiles' => 'userId'],
-        'only' => ['show', 'update', 'destroy']
-    ]);
+        /**
+         * Account
+         */
+        Route::get('/accounts/list', 'AccountController@accountsList')->name('accounts.list');
+        Route::resource('accounts', 'AccountController', [
+            'parameters' => ['accounts' => 'userId'],
+            'only' => ['index', 'store', 'show', 'update', 'destroy']
+        ]);
 
-    /**
-     * Avatar
-     */
-    Route::resource('avatars', 'AvatarController', [
-        'parameters' => ['avatars' => 'profile'],
-        'only' => ['show', 'edit', 'update']
-    ]);
+        /**
+         * Role
+         */
+        Route::delete('roles-revoke/{userId}', 'RoleController@revoke')->name('roles.revoke');
+        Route::resource('roles', 'RoleController', [
+            'only' => ['index', 'show', 'store', 'update', 'destroy']
+        ]);
 
+        /**
+         * Profile
+         */
+        Route::get('/profiles/{profileId}/edit', 'ProfileController@edit')->name('profiles.edit');
+        Route::post('/profiles/{userId}', 'ProfileController@store')->name('profiles.store');
+        Route::get('/profiles/{userId}/create', 'ProfileController@create')->name('profiles.create');
+        Route::resource('profiles', 'ProfileController', [
+            'parameters' => ['profiles' => 'userId'],
+            'only' => ['show', 'update', 'destroy']
+        ]);
+
+        /**
+         * Avatar
+         */
+        Route::resource('avatars', 'AvatarController', [
+            'parameters' => ['avatars' => 'profile'],
+            'only' => ['show', 'edit', 'update']
+        ]);
+    });
+
+    //Profile
+    Route::namespace('Profile')->group(function(){
+
+        Route::resource('schedule', 'DaysController',[
+            'parameters' => ['schedule' => 'profile'],
+            'only' => ['update'],
+        ]);
+    });
 });
 
 /**

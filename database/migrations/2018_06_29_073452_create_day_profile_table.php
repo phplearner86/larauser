@@ -22,8 +22,8 @@ class CreateDayProfileTable extends Migration
             $table->unsignedInteger('day_id');
             $table->foreign('day_id')->references('id')->on('days')->onDelete('cascade');
 
-            $table->string('start')->nullable();
-            $table->string('end')->nullable();
+            $table->string('start_at')->nullable();
+            $table->string('end_at')->nullable();
 
         });
     }

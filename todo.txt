@@ -1,1 +1,4 @@
 avatarRequest, errors jquery, modal empty
+
+make snippet za cconsole.log
+

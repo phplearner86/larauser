@@ -16,7 +16,7 @@ var datatable = table.DataTable({
          {
              data: "name",
              render:function(data, type, row, meta){
-                 return '<a href="#" data-user=' + row.id + ' id="editProfile">' + data + '</a>'
+                 return '<a href="/admin/profiles/'+ row.profile.id +'/edit" data-user=' + row.id + ' id="editProfile">' + data + '</a>'
              },
          },
          {
@@ -50,7 +50,11 @@ var datatable = table.DataTable({
          {
              data: "id",
              visible: false
-         }
+         },
+         {
+             data: "profile.id",
+             visible: false
+         },
      ],
      "order": [2, "desc"],
      responsive: true,

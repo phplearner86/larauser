@@ -22,7 +22,7 @@ class AccountController extends Controller
         if (request()->ajax()) 
         {
             $users = User::all();
-            return ['data' => $users->load('roles:name')];
+            return ['data' => $users->load('roles:name', 'profile')];
         }
     }
 
