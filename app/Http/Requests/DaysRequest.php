@@ -27,12 +27,9 @@ class DaysRequest extends FormRequest
             'day' => 'array|max:6',
             'start`' => 'array|max:6',
             'end' => 'array|max:6',
-            'day.0' => 'required|exists:days,id|distinct',
             'day.*' => 'required|exists:days,id|distinct',
-            'start.0' => 'nullable|date_format:H:i',
             'start.*' => 'nullable|date_format:H:i',
-            'end.0' => 'nullable|date_format:H:i',
-            'end.*' => 'nullable|date_format:H:i',
+            'end.*' => 'nullable|date_format:H:i|after:start.*',
 
         ];
     }
@@ -45,6 +42,7 @@ class DaysRequest extends FormRequest
             'day.*.distinct' => 'Duplicate values not allowed',
             'start.*.date_format' => 'Invalid time format',
             'end.*.date_format' => 'Invalid time format',
+            'end.*.after' => 'End must be after start',
         ];
     }
 }

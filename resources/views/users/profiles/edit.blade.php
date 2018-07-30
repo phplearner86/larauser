@@ -1,10 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    @php
-        $profile = \App\Profile::first();
-        $days = \App\Day::all();
-    @endphp
+    
     <div id="displaySchedule">
         @foreach ($profile->days as $day)
             <p>{{ $day->name }} {{ $day->work->start_at }} {{ $day->work->end_at }}</p>
