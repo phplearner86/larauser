@@ -19,7 +19,10 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title">
+                        <i class="fa fa-calendar"></i>
+                        <span></span>
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -74,7 +77,7 @@
         var profileUrl = "{{ route('admin.profiles.show', $profile) }}"
         
         var scheduleModal = $('.schedule-modal');
-        var modalTitle = $('.modal-title');
+        var modalTitle = $('.modal-title span');
         var days = @json($days);
 
         var container = $('section#days');
@@ -155,6 +158,56 @@
                 }
             });
         });
+
+        $(document).on('click', '#editSchedule', function(){
+            scheduleModal.modal('show');
+
+            modalTitle.text('Edit schedule');
+            template.remove();
+
+            $.ajax({
+                type:'GET',
+                url:profileUrl,
+                success: function(response){
+
+                    var days = response.profile.days;
+                    console.log(days)
+                    for(i=0; i<days.length; i++)
+                    {
+                        var btnId = i==0 ? 'addRow' : '';
+                        var btnRemove = i==0 ? '' : 'btn-remove';
+                        var faClass = i==0 ? 'fa-plus' : 'fa-remove';
+
+                        cloneTemplate(template, container, i)
+                            .find('button').attr('id', btnId).addClass(btnRemove).end()
+                            .find('.fa').removeClass('fa-plus').addClass(faClass)
+
+                        $("select")[i].selectedIndex = days[i].work.day_id;
+                        $("input[name*='start_at']")[i].value = days[i].work.start_at;
+                        $("input[name*='end_at']")[i].value = days[i].work.end_at;
+
+                    }
+
+                }
+
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         function getSelectsValues(selectName)
         {
@@ -278,7 +331,7 @@
             });
 
             return tempArray;
-        }
+        };
 
     </script>
 @endsection

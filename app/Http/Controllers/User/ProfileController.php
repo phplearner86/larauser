@@ -57,7 +57,7 @@ class ProfileController extends Controller
         if (request()->ajax())
         {
             return response([
-                'profile' => $profile,
+                'profile' => $profile->load('days'),
             ]);
         }
     }
